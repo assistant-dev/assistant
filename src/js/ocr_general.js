@@ -35,7 +35,16 @@ function ocr(file) {
             log.error(`请前往https://www.xfyun.cn/document/error-code?code=${res.code}查询解决办法`)
             return false
         }
-        let resq = res.data.block;
+        // get pure text and return
+        let text = ""
+        for (let i = 0; i < res.data.block.length; i++) {
+            for (let j = 0; j < res.data.block[i].line.length; j++) {
+                for (let k = 0; k < res.data.block[i].line[j].word.length; k++) {
+                    text += res.data.block[i].line[j].word[k].content
+                }
+            }
+        }
+        return text;
     })
 
 }

@@ -21,6 +21,9 @@ let zh_CN = {
     "enter_prompt": "请输入背诵内容：",
     "ocr_prompt": "请在<b>Assistant所在磁盘</b>中用一个文件夹单独放置您的图片，然后在下面输入文件夹路径，<b>不要输入盘符</b>。",
     "image_prompt": "请您输入您的图片文件夹，<b>不要输入盘符</b>：",
+    "sort_out": "整理文本",
+    "down": "下",
+    "up": "上",
 };
 
 let en_US = {
@@ -40,6 +43,9 @@ let en_US = {
     "enter_prompt": "Please enter the reciting content:",
     "ocr_prompt": "Please put your images in a folder on <b>the disk where Assistant is located</b>, then enter the folder path below, <b>without the disk letter</b>.",
     "image_prompt": "Please enter your image folder, <b>without the disk letter</b>:",
+    "sort_out": "Sort out text",
+    "down": "Down",
+    "up": "Up",
 };
 
 /**
