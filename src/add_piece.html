@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <title>Assistant</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container" id="app">
+            <b><loc>filename</loc></b>
+            <input type="text" class="form-control form-control-sm" id="filename" title="filename">
+            <b><loc>name</loc></b>
+            <input type="text" class="form-control form-control-sm" id="name" title="name">
+            <b><loc>lr_type</loc></b>
+            <select class="form-select form-select-sm" title="lr_type" id="lr_type">
+                <option value="" class="loc">please_select</option>
+                <option value="text" class="loc">text</option>
+                <option value="image" class="loc">image</option>
+                <option value="voice" class="loc">voice</option>
+                <option value="audio" class="loc">audio</option>
+            </select>
+            <br/>
+            <button type="button" class="btn btn-primary" onclick="submit()"><loc>go_ahead</loc></button>
+        </div>
+        <script src="js/app.js"></script>
+        <script src="js/lang.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            window.onload = function() {
+                let firstRun = detect_first_run();
+                if (firstRun) {
+                    var link = document.createElement('a');
+                    link.href = "first_run.html";
+                    link.click();
+                }
+                let cfg = JSON.parse(fc(config_path()));
+                update(cfg.language);
+            }
+            function submit() {
+                let filename = document.getElementById("filename").value;
+                let path = config_folder() + "/dl/" + filename;
+                let cfg = JSON.parse(fc(config_path()));
+                if (fs.existsSync(path)) {
+                    alert(lang[cfg.language]["exist_alert"]);
+                    return;
+                }
+                fs.mkdirSync(path);
+                let fp = path + "/project.json";
+                let name = document.getElementById("name").value;
+                let lr_type = document.getElementById("lr_type").value;
+                let project_struct = {
+                    type: lr_type,
+                    name: name
+                };
+                let json = JSON.stringify(project_struct);
+                fs.writeFileSync(fp, json);
+                localStorage.setItem("project_path", path);
+                window.location.href = `ap_mod/${lr_type}.html`;
+            }
+        </script>
+    </body>
+</html>

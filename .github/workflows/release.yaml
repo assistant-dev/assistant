@@ -20,9 +20,4 @@ jobs:
         with:
           name: release
           path: release/
-
-      - uses: actions/upload-artifact@v2
-        with:
-          name: release-sdk
-          path: release-sdk/
       
