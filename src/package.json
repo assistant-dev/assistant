@@ -1,0 +1,17 @@
+{
+  "name": "assistant",
+  "version": "1.0.0",
+  "description": "An assistant for reciting.",
+  "author": "shuzhouliu",
+  "license": "apache",
+  "main": "index.html",
+  "window": {
+    "height": 500,
+    "width": 550,
+    "resizable": true,
+    "title": "Assistant"
+  },
+  "dependencies": {
+    "jquery": "^3.6.0"
+  }
+}
