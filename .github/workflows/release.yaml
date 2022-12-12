@@ -1,0 +1,28 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '18.x'
+      - run: yarn install
+      - run: yarn build
+      - run: yarn build-sdk
+      - uses: actions/upload-artifact@v2
+        with:
+          name: release
+          path: release/
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: release-sdk
+          path: release-sdk/
+      

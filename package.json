@@ -11,7 +11,7 @@
     "dev": "node index.js",
     "start": "nw src/",
     "build": "nwbuild --platform win --version 0.70.1 --arch x64 --outDir release/ --flavour normal src/",
-    "build-sdk": "nwbuild --platform win --version 0.70.1 --arch x64 --outDir release/ --flavour sdk src/"
+    "build-sdk": "nwbuild --platform win --version 0.70.1 --arch x64 --outDir release-sdk/ --flavour sdk src/"
   },
   "dependencies": {
     "@types/node": "^18.11.13",
