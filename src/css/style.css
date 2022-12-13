@@ -5,3 +5,16 @@ body {
 .hidden {
     display: none;
 }
+
+.dblue {
+    color: darkblue;
+}
+
+.red {
+    color: rgba(255, 0, 0, 0.527); 
+}
+
+.trans {
+    background-color: transparent;
+    border-style: none;
+}

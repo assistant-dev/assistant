@@ -17,13 +17,13 @@ function ocr(file) {
     }
 
     // 获取当前时间戳
-    let ts = parseInt(new Date().getTime() / 1000)
+    let ts = parseInt(new Date().getTime() / 1000);
 
     let options = {
         url: config.hostUrl,
-        headers: getReqHeader(),
-        form: getPostBody()
-    }
+        headers: getReqHeader(config, ts),
+        form: getPostBody(config)
+    };
     // 返回结果json串
     request.post(options, (err, resp, body) => {
         if (err) {
@@ -45,8 +45,7 @@ function ocr(file) {
             }
         }
         return text;
-    })
-
+    });
 }
 
 // 组装业务参数
@@ -58,7 +57,7 @@ function getXParamStr() {
 }
 
 // 组装请求头
-function getReqHeader() {
+function getReqHeader(config, ts) {
     let xParamStr = getXParamStr()
     let xCheckSum = CryptoJS.MD5(config.apiKey + ts + xParamStr).toString()
     return {
@@ -71,7 +70,7 @@ function getReqHeader() {
 }
 
 // 组装postBody
-function getPostBody() {
+function getPostBody(config) {
     let buffer = fs.readFileSync(config.file)
     return {
         image: buffer.toString('base64'),
