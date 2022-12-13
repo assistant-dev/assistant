@@ -7,7 +7,7 @@
   "main": "index.html",
   "window": {
     "height": 500,
-    "width": 550,
+    "width": 750,
     "resizable": true,
     "title": "Assistant"
   },

@@ -38,6 +38,7 @@
         }
         let path = localStorage.getItem("project_path");
         let json_mfs = JSON.parse(fc(path + "/project.json"));
+        let imgpaths = [];
         function count() {
             let count = document.getElementById("count").value;
             return count;
@@ -89,6 +90,8 @@
                         li.appendChild(div);
                         // edit
                         li.innerHTML += `<button class="btn btn-light trans" id="editbtn_${count()}" onclick="edit(${count()})" title="edit"><i class="bi bi-pencil-fill green"></i></button>`;
+                        // image
+                        li.innerHTML += `<button class="btn btn-light trans" id="origbtn_${count()}" onclick="orig(${count()})" title="original"><i class="bi bi-image-fill dblue"></i></button>`;
                         // up
                         li.innerHTML += `<button class="btn btn-light trans" id="upbtn_${count()}" onclick="up_func(${count()})"><i class="bi bi-caret-up-fill dblue" id="up_${count()}"></i></button>`;
                         // down
@@ -96,6 +99,8 @@
                         // trash
                         li.innerHTML += `<button class="btn btn-light trans" id="trashbtn_${count()}" onclick="trash_func(${count()})"><i class="bi bi-trash3-fill red" id="trash_${count()}"></i></button>`;
                         lg.appendChild(li);
+                        // add to imgpaths
+                        imgpaths.push(file_path);
                         cpp();
                     }
                 }
@@ -113,6 +118,9 @@
             tmp = $i("result_" + id).innerHTML;
             $i("result_" + id).innerHTML = $i("result_" + prev).innerHTML;
             $i("result_" + prev).innerHTML = tmp;
+            tmp = imgpaths[id - 1];
+            imgpaths[id - 1] = imgpaths[prev - 1];
+            imgpaths[prev - 1] = tmp;
             return true;
         }
         function down_func(id) {
@@ -127,6 +135,9 @@
             tmp = $i("result_" + id).innerHTML;
             $i("result_" + id).innerHTML = $i("result_" + next).innerHTML;
             $i("result_" + next).innerHTML = tmp;
+            tmp = imgpaths[id - 1];
+            imgpaths[id - 1] = imgpaths[next - 1];
+            imgpaths[next - 1] = tmp;
             return true;
         }
         function trash_func(id) {
@@ -140,11 +151,16 @@
             $i("result_" + next).innerHTML = tmp;
             $i("li_" + next).remove();
             cmm();
+            // remove id from imgpaths
+            imgpaths.splice(id - 1, 1);
             return true;
         }
         function edit(id) {
             let c = prompt("", $i("result_" + id).innerHTML);
             $i("result_" + id).innerHTML = c;
+        }
+        function orig(id) {
+            nw.Window.get(window.open(imgpaths[id - 1]));
         }
     </script>
 </body>
