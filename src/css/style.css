@@ -18,3 +18,7 @@ body {
     background-color: transparent;
     border-style: none;
 }
+
+.green {
+    color: rgb(12, 180, 12);
+}

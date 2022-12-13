@@ -3,7 +3,7 @@ var request = require('request')
 var log = require('log4node')
 var fs = require('fs')
 
-function ocr(file) {
+async function getRsp(file) {
 
     let json = JSON.parse(fc(config_folder() + "/.xfyun"));
 
@@ -19,33 +19,28 @@ function ocr(file) {
     // 获取当前时间戳
     let ts = parseInt(new Date().getTime() / 1000);
 
-    let options = {
-        url: config.hostUrl,
+    const response = await fetch('https://webapi.xfyun.cn/v1/service/v1/ocr/general', {
+        method: 'POST',
         headers: getReqHeader(config, ts),
-        form: getPostBody(config)
-    };
-    // 返回结果json串
-    request.post(options, (err, resp, body) => {
-        if (err) {
-            log.error(err)
-        }
-        let res = JSON.parse(body)
-        if (res.code != 0) {
-            log.error(`发生错误，错误码：${res.code} 错误原因：${res.desc} sid：${res.sid}`)
-            log.error(`请前往https://www.xfyun.cn/document/error-code?code=${res.code}查询解决办法`)
-            return false
-        }
-        // get pure text and return
-        let text = ""
-        for (let i = 0; i < res.data.block.length; i++) {
-            for (let j = 0; j < res.data.block[i].line.length; j++) {
-                for (let k = 0; k < res.data.block[i].line[j].word.length; k++) {
-                    text += res.data.block[i].line[j].word[k].content
-                }
+        body: encodeURI("image=" + getPostBody(config).image),
+    });
+    return response.text();
+}
+
+async function ocr(file) {
+    let text = await getRsp(file);
+    let json = JSON.parse(text);
+    let result = "";
+    for (let i = 0; i < json.data.block.length; i++) {
+        let line = json.data.block[i].line;
+        for (let j = 0; j < line.length; j++) {
+            let word = line[j].word;
+            for (let k = 0; k < word.length; k++) {
+                result += word[k].content;
             }
         }
-        return text;
-    });
+    }
+    return result;
 }
 
 // 组装业务参数
@@ -73,6 +68,6 @@ function getReqHeader(config, ts) {
 function getPostBody(config) {
     let buffer = fs.readFileSync(config.file)
     return {
-        image: buffer.toString('base64'),
+        image: buffer.toString('base64')
     }
 }
