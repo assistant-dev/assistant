@@ -12,13 +12,19 @@
 
 <body>
     <div class="container" id="app">
-        <button type="button" class="btn btn-primary" onclick="add_pic()" title="pic_title">
+        <button type="button" class="btn btn-primary" onclick="add_audio()" title="audio_title">
             <loc>add</loc>
         </button>
         &nbsp;&nbsp;
         <button type="button" class="btn btn-primary" onclick="save()" title="savepic">
             <loc>save</loc>
         </button>
+        &nbsp;&nbsp;
+        <select id="lang-sel" title="lang-sel" class="form-select form-select-sm">
+            <option value="" class="loc">please_select</option>
+            <option value="cn" class="loc">zh-CN</option>
+            <option value="en" class="loc">en-US</option>
+        </select>
         <input type="file" class="form-control form-control-sm hidden" title="file_upload" id="file" multiple>
     </div>
     <ol class="list-group list-group-sm list-group-numbered" id="lg">
@@ -27,7 +33,7 @@
     </div>
     <script src="../js/app.js"></script>
     <script src="../js/lang.js"></script>
-    <script src="../js/ocr_general.js"></script>
+    <script src="../js/ifasr_new.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         window.onload = function () {
@@ -37,9 +43,9 @@
                 link.href = "first_run.html";
                 link.click();
             }
-            let cfg = JSON.parse(fc(config_path()));
-            update(cfg.language);
         }
+        let cfg = JSON.parse(fc(config_path()));
+        update(cfg.language);
         let path = localStorage.getItem("project_path");
         let json_mfs = JSON.parse(fc(path + "/project.json"));
         let imgpaths = [];
@@ -60,7 +66,7 @@
             document.getElementById("count").value = count;
             return count;
         }
-        function add_pic() {
+        function add_audio() {
             // load a file selection popup
             let file = document.getElementById("file");
             file.click();
@@ -74,9 +80,10 @@
                     if (file_type == "image/jpeg" || file_type == "image/png") {
                         // get the file name
                         let file_name = files[key].name;
-                        // get the file ocr result
-                        let file_ocr = await ocr(file_path);
-                        // add result to lg
+                        // get the audio result
+                        let file_results = await ifasr(file_path, $i("lang-sel").value);
+                        if (file_results === -1) continue;
+                        let orderId = file_results.orderId, etime = file_results.taskEstimateTime;
                         let lg = $i("lg");
                         let li = document.createElement("li");
                         li.id = "li_" + count();
@@ -89,25 +96,23 @@
                         div_fw.innerHTML = file_name;
                         let span = document.createElement("span");
                         span.id = "result_" + count();
-                        span.innerHTML = file_ocr;
+                        span.innerHTML = `<div class="progress"><div class="progress-bar" role="progressbar" aria-label="Progress Bar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" id="pg_${count()}">0% 剩余1分30秒</div></div>`;
+                        // a counter to automatically update the progress bar
+                        let counter = 0;
+                        let timer = setInterval(function() {
+                            counter++;
+                            let pg = $i("pg_" + count());
+                            let percent = Math.floor(counter / etime * 100);
+                            pg.style.width = percent + "%";
+                            pg.innerHTML = percent + "% " + lang[cfg.language]["remaining"] + (etime - counter) + lang[cfg.language]["seconds"];
+                            if (counter >= etime) {
+                                clearInterval(timer);
+                                pg.innerHTML = "100% " + lang[cfg.language]["completed"];
+                            }
+                        }, 1000);
                         div.appendChild(div_fw);
                         div.appendChild(span);
                         li.appendChild(div);
-                        // edit
-                        li.innerHTML += `<button class="btn btn-light trans" id="editbtn_${count()}" onclick="edit(${count()})" title="edit"><i class="bi bi-pencil-fill green"></i></button>`;
-                        // image
-                        li.innerHTML += `<button class="btn btn-light trans" id="origbtn_${count()}" onclick="orig(${count()})" title="original"><i class="bi bi-image-fill dblue"></i></button>`;
-                        // up
-                        li.innerHTML += `<button class="btn btn-light trans" id="upbtn_${count()}" onclick="up_func(${count()})"><i class="bi bi-caret-up-fill dblue" id="up_${count()}"></i></button>`;
-                        // down
-                        li.innerHTML += `<button class="btn btn-light trans" id="downbtn_${count()}" onclick="down_func(${count()})"><i class="bi bi-caret-down-fill dblue" id="down_${count()}"></i></button>`;
-                        // trash
-                        li.innerHTML += `<button class="btn btn-light trans" id="trashbtn_${count()}" onclick="trash_func(${count()})"><i class="bi bi-trash3-fill red" id="trash_${count()}"></i></button>`;
-                        lg.appendChild(li);
-                        // add to imgpaths
-                        imgpaths.push(file_path);
-                        imgtypes.push(file_type);
-                        cpp();
                     }
                 }
             }

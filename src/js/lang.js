@@ -19,7 +19,13 @@ let zh_CN = {
     "exist_alert": "这个文件已经存在，请您更换一个文件名。",
     "name": "名称：",
     "enter_prompt": "请输入背诵内容：",
-    "add": "+ 新增"
+    "add": `<i class="bi bi-plus"></i> 新增`,
+    "save": `<i class="bi bi-save"></i> 保存`,
+    "zh-CN": "中文（简体）",
+    "en-US": "英语（美国）",
+    "remaining": "剩余",
+    "seconds": "秒",
+    "completed": "完成"
 };
 
 let en_US = {
@@ -37,7 +43,13 @@ let en_US = {
     "exist_alert": "This file already exists, please change the file name.",
     "name": "Name:",
     "enter_prompt": "Please enter the reciting content:",
-    "add": "+ Add"
+    "add": `<i class="bi bi-plus"></i> Add`,
+    "save": `<i class="bi bi-save"></i> Save`,
+    "zh-CN": "Chinese (Simplified)",
+    "en-US": "English (United States)",
+    "remaining": "Remaining",
+    "seconds": "seconds",
+    "completed": "Completed"
 };
 
 /**
