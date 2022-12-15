@@ -1,0 +1,22 @@
+name: "Codecov"
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  schedule: 
+    - cron: "34 12 * * 0"
+
+jobs:
+  upload:
+    name: "Upload Code to Codecov"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Upload files
+        run: |
+          curl -Os https://uploader.codecov.io/latest/linux/codecov
+          chmod +x codecov
+          ./codecov
