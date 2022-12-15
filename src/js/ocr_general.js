@@ -1,8 +1,14 @@
 const CryptoJS = require("crypto-js");
-var request = require("request");
-var log = require("log4node");
 var fs = require("fs");
 
+/**
+ * async getRsp()
+ * @brief Get response from the xfyun api.
+ * @param {string} file The path of the file to be recognized.
+ * @requires CryptoJS
+ * @requires fs
+ * @returns {string} The text of the xfyun response, with the confidence etc. unusable data.
+ */
 async function getRsp(file) {
   let json = JSON.parse(fc(config_folder() + "/.xfyun"));
 
@@ -29,6 +35,12 @@ async function getRsp(file) {
   return response.text();
 }
 
+/**
+ * async ocr()
+ * @param {string} file The path of the file to be recognized.
+ * @returns {string} The text of the xfyun response, with the plain text. Useful.
+ */
+// eslint-disable-next-line no-unused-vars
 async function ocr(file) {
   let text = await getRsp(file);
   let json = JSON.parse(text);
@@ -45,7 +57,12 @@ async function ocr(file) {
   return result;
 }
 
-// 组装业务参数
+/**
+ * getXParamStr()
+ * @brief Get the xParamStr.
+ * @requires CryptoJS
+ * @returns {string} The xParamStr.
+ */
 function getXParamStr() {
   let xParam = {
     language: "cn|en",
@@ -55,7 +72,14 @@ function getXParamStr() {
   );
 }
 
-// 组装请求头
+/**
+ * getReqHeader()
+ * @brief Get the request header.
+ * @param {object} config The config object.
+ * @param {number} ts The timestamp now.
+ * @requires CryptoJS
+ * @returns {object} The request header.
+ */
 function getReqHeader(config, ts) {
   let xParamStr = getXParamStr();
   let xCheckSum = CryptoJS.MD5(config.apiKey + ts + xParamStr).toString();
@@ -68,7 +92,13 @@ function getReqHeader(config, ts) {
   };
 }
 
-// 组装postBody
+/**
+ * getPostBody()
+ * @brief Get the post body.
+ * @param {object} config The config object.
+ * @requires fs
+ * @returns {object} The post body.
+ */
 function getPostBody(config) {
   let buffer = fs.readFileSync(config.file);
   return {

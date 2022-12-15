@@ -13,7 +13,8 @@
     "build": "nwbuild --platform win --version 0.70.1 --arch x64 --outDir release/ --flavour normal src/",
     "build-sdk": "nwbuild --platform win --version 0.70.1 --arch x64 --outDir release-sdk/ --flavour sdk src/",
     "format": "prettier --write .",
-    "check": "prettier --check ."
+    "check": "prettier --check .",
+    "test": "jest"
   },
   "dependencies": {
     "@types/node": "^18.11.13",
