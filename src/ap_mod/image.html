@@ -1,202 +1,228 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
-<head>
+  <head>
     <title>Assistant</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
-    <link href="../css/style.css" rel="stylesheet">
-</head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"
+    />
+    <link href="../css/style.css" rel="stylesheet" />
+  </head>
 
-<body>
+  <body>
     <div class="container" id="app">
-        <button type="button" class="btn btn-primary" onclick="add_pic()" title="pic_title">
-            <loc>add</loc>
-        </button>
-        &nbsp;&nbsp;
-        <button type="button" class="btn btn-primary" onclick="save()" title="savepic">
-            <loc>save</loc>
-        </button>
-        <input type="file" class="form-control form-control-sm hidden" title="file_upload" id="file" multiple>
+      <button
+        type="button"
+        class="btn btn-primary"
+        onclick="add_pic()"
+        title="pic_title"
+      >
+        <loc>add</loc>
+      </button>
+      &nbsp;&nbsp;
+      <button
+        type="button"
+        class="btn btn-primary"
+        onclick="save()"
+        title="savepic"
+      >
+        <loc>save</loc>
+      </button>
+      <input
+        type="file"
+        class="form-control form-control-sm hidden"
+        title="file_upload"
+        id="file"
+        multiple
+      />
     </div>
     <ol class="list-group list-group-sm list-group-numbered" id="lg">
-        <input type="hidden" id="count" value="1">
+      <input type="hidden" id="count" value="1" />
     </ol>
-    </div>
     <script src="../js/app.js"></script>
     <script src="../js/lang.js"></script>
     <script src="../js/ocr_general.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        window.onload = function () {
-            let firstRun = detect_first_run();
-            if (firstRun) {
-                var link = document.createElement('a');
-                link.href = "first_run.html";
-                link.click();
+      window.onload = function () {
+        let firstRun = detect_first_run();
+        if (firstRun) {
+          var link = document.createElement("a");
+          link.href = "first_run.html";
+          link.click();
+        }
+        let cfg = JSON.parse(fc(config_path()));
+        update(cfg.language);
+      };
+      let path = localStorage.getItem("project_path");
+      let json_mfs = JSON.parse(fc(path + "/project.json"));
+      let imgpaths = [];
+      let imgtypes = [];
+      function count() {
+        let count = document.getElementById("count").value;
+        return count;
+      }
+      function cpp() {
+        let count = document.getElementById("count").value;
+        count++;
+        document.getElementById("count").value = count;
+        return count;
+      }
+      function cmm() {
+        let count = document.getElementById("count").value;
+        count--;
+        document.getElementById("count").value = count;
+        return count;
+      }
+      function add_pic() {
+        // load a file selection popup
+        let file = document.getElementById("file");
+        file.click();
+        // get the file path
+        file.onchange = async function () {
+          // multiple
+          let files = file.files;
+          for (var key in files) {
+            let file_path = files[key].path;
+            let file_type = files[key].type;
+            if (file_type == "image/jpeg" || file_type == "image/png") {
+              // get the file name
+              let file_name = files[key].name;
+              // get the file ocr result
+              let file_ocr = await ocr(file_path);
+              // add result to lg
+              let lg = $i("lg");
+              let li = document.createElement("li");
+              li.id = "li_" + count();
+              li.className =
+                "list-group-item d-flex justify-content-between align-items-start";
+              let div = document.createElement("div");
+              div.className = "ms-2 me-auto";
+              let div_fw = document.createElement("div");
+              div_fw.className = "fw-bold";
+              div_fw.id = "fn_" + count();
+              div_fw.innerHTML = file_name;
+              let span = document.createElement("span");
+              span.id = "result_" + count();
+              span.innerHTML = file_ocr;
+              div.appendChild(div_fw);
+              div.appendChild(span);
+              li.appendChild(div);
+              // edit
+              li.innerHTML += `<button class="btn btn-light trans" id="editbtn_${count()}" onclick="edit(${count()})" title="edit"><i class="bi bi-pencil-fill green"></i></button>`;
+              // image
+              li.innerHTML += `<button class="btn btn-light trans" id="origbtn_${count()}" onclick="orig(${count()})" title="original"><i class="bi bi-image-fill dblue"></i></button>`;
+              // up
+              li.innerHTML += `<button class="btn btn-light trans" id="upbtn_${count()}" onclick="up_func(${count()})"><i class="bi bi-caret-up-fill dblue" id="up_${count()}"></i></button>`;
+              // down
+              li.innerHTML += `<button class="btn btn-light trans" id="downbtn_${count()}" onclick="down_func(${count()})"><i class="bi bi-caret-down-fill dblue" id="down_${count()}"></i></button>`;
+              // trash
+              li.innerHTML += `<button class="btn btn-light trans" id="trashbtn_${count()}" onclick="trash_func(${count()})"><i class="bi bi-trash3-fill red" id="trash_${count()}"></i></button>`;
+              lg.appendChild(li);
+              // add to imgpaths
+              imgpaths.push(file_path);
+              imgtypes.push(file_type);
+              cpp();
             }
-            let cfg = JSON.parse(fc(config_path()));
-            update(cfg.language);
+          }
+        };
+      }
+      function up_func(id) {
+        if (typeof id === "string") id = parseInt(id);
+        if (id == 1) {
+          return false;
         }
-        let path = localStorage.getItem("project_path");
-        let json_mfs = JSON.parse(fc(path + "/project.json"));
-        let imgpaths = [];
-        let imgtypes = [];
-        function count() {
-            let count = document.getElementById("count").value;
-            return count;
+        let prev = id - 1;
+        let tmp = $i("fn_" + id).innerHTML;
+        $i("fn_" + id).innerHTML = $i("fn_" + prev).innerHTML;
+        $i("fn_" + prev).innerHTML = tmp;
+        tmp = $i("result_" + id).innerHTML;
+        $i("result_" + id).innerHTML = $i("result_" + prev).innerHTML;
+        $i("result_" + prev).innerHTML = tmp;
+        tmp = imgpaths[id - 1];
+        imgpaths[id - 1] = imgpaths[prev - 1];
+        imgpaths[prev - 1] = tmp;
+        tmp = imgtypes[id - 1];
+        imgtypes[id - 1] = imgtypes[prev - 1];
+        imgtypes[prev - 1] = tmp;
+        return true;
+      }
+      function down_func(id) {
+        if (typeof id === "string") id = parseInt(id);
+        if (id == count()) {
+          return false;
         }
-        function cpp() {
-            let count = document.getElementById("count").value;
-            count++;
-            document.getElementById("count").value = count;
-            return count;
+        let next = id + 1;
+        let tmp = $i("fn_" + id).innerHTML;
+        $i("fn_" + id).innerHTML = $i("fn_" + next).innerHTML;
+        $i("fn_" + next).innerHTML = tmp;
+        tmp = $i("result_" + id).innerHTML;
+        $i("result_" + id).innerHTML = $i("result_" + next).innerHTML;
+        $i("result_" + next).innerHTML = tmp;
+        tmp = imgpaths[id - 1];
+        imgpaths[id - 1] = imgpaths[next - 1];
+        imgpaths[next - 1] = tmp;
+        tmp = imgtypes[id - 1];
+        imgtypes[id - 1] = imgtypes[next - 1];
+        imgtypes[next - 1] = tmp;
+        return true;
+      }
+      function trash_func(id) {
+        if (typeof id === "string") id = parseInt(id);
+        let next = count() - 1;
+        let tmp = $i("fn_" + id).innerHTML;
+        $i("fn_" + id).innerHTML = $i("fn_" + next).innerHTML;
+        $i("fn_" + next).innerHTML = tmp;
+        tmp = $i("result_" + id).innerHTML;
+        $i("result_" + id).innerHTML = $i("result_" + next).innerHTML;
+        $i("result_" + next).innerHTML = tmp;
+        $i("li_" + next).remove();
+        cmm();
+        // remove id from imgpaths
+        imgpaths.splice(id - 1, 1);
+        // remove id from imgtypes
+        imgtypes.splice(id - 1, 1);
+        return true;
+      }
+      function edit(id) {
+        let c = prompt("", $i("result_" + id).innerHTML);
+        $i("result_" + id).innerHTML = c;
+      }
+      function orig(id) {
+        nw.Window.get(window.open(imgpaths[id - 1]));
+      }
+      function save() {
+        let resultpath = path + "/result.txt";
+        let result = "";
+        for (let i = 1; i < count(); i++)
+          result += $i("result_" + i).innerHTML + newline();
+        fs.writeFileSync(resultpath, result);
+        let srcfolder = path + "/src";
+        fs.mkdirSync(srcfolder);
+        // copy files from imgpaths and name them according to their id
+        let ipath = [];
+        for (let i = 0; i < imgpaths.length; i++) {
+          fs.copyFileSync(
+            imgpaths[i],
+            srcfolder + "/" + (i + 1) + suffix(imgtypes[i])
+          );
+          ipath.push(srcfolder + "/" + (i + 1) + suffix(imgtypes[i]));
+          fs.writeFileSync(
+            srcfolder + "/" + (i + 1) + ".txt",
+            $i("result_" + (i + 1)).innerHTML
+          );
         }
-        function cmm() {
-            let count = document.getElementById("count").value;
-            count--;
-            document.getElementById("count").value = count;
-            return count;
-        }
-        function add_pic() {
-            // load a file selection popup
-            let file = document.getElementById("file");
-            file.click();
-            // get the file path
-            file.onchange = async function () {
-                // multiple
-                let files = file.files;
-                for (var key in files) {
-                    let file_path = files[key].path;
-                    let file_type = files[key].type;
-                    if (file_type == "image/jpeg" || file_type == "image/png") {
-                        // get the file name
-                        let file_name = files[key].name;
-                        // get the file ocr result
-                        let file_ocr = await ocr(file_path);
-                        // add result to lg
-                        let lg = $i("lg");
-                        let li = document.createElement("li");
-                        li.id = "li_" + count();
-                        li.className = "list-group-item d-flex justify-content-between align-items-start";
-                        let div = document.createElement("div");
-                        div.className = "ms-2 me-auto";
-                        let div_fw = document.createElement("div");
-                        div_fw.className = "fw-bold";
-                        div_fw.id = "fn_" + count();
-                        div_fw.innerHTML = file_name;
-                        let span = document.createElement("span");
-                        span.id = "result_" + count();
-                        span.innerHTML = file_ocr;
-                        div.appendChild(div_fw);
-                        div.appendChild(span);
-                        li.appendChild(div);
-                        // edit
-                        li.innerHTML += `<button class="btn btn-light trans" id="editbtn_${count()}" onclick="edit(${count()})" title="edit"><i class="bi bi-pencil-fill green"></i></button>`;
-                        // image
-                        li.innerHTML += `<button class="btn btn-light trans" id="origbtn_${count()}" onclick="orig(${count()})" title="original"><i class="bi bi-image-fill dblue"></i></button>`;
-                        // up
-                        li.innerHTML += `<button class="btn btn-light trans" id="upbtn_${count()}" onclick="up_func(${count()})"><i class="bi bi-caret-up-fill dblue" id="up_${count()}"></i></button>`;
-                        // down
-                        li.innerHTML += `<button class="btn btn-light trans" id="downbtn_${count()}" onclick="down_func(${count()})"><i class="bi bi-caret-down-fill dblue" id="down_${count()}"></i></button>`;
-                        // trash
-                        li.innerHTML += `<button class="btn btn-light trans" id="trashbtn_${count()}" onclick="trash_func(${count()})"><i class="bi bi-trash3-fill red" id="trash_${count()}"></i></button>`;
-                        lg.appendChild(li);
-                        // add to imgpaths
-                        imgpaths.push(file_path);
-                        imgtypes.push(file_type);
-                        cpp();
-                    }
-                }
-            }
-        }
-        function up_func(id) {
-            if (typeof id === 'string') id = parseInt(id);
-            if (id == 1) {
-                return false;
-            }
-            let prev = id - 1;
-            let tmp = $i("fn_" + id).innerHTML;
-            $i("fn_" + id).innerHTML = $i("fn_" + prev).innerHTML;
-            $i("fn_" + prev).innerHTML = tmp;
-            tmp = $i("result_" + id).innerHTML;
-            $i("result_" + id).innerHTML = $i("result_" + prev).innerHTML;
-            $i("result_" + prev).innerHTML = tmp;
-            tmp = imgpaths[id - 1];
-            imgpaths[id - 1] = imgpaths[prev - 1];
-            imgpaths[prev - 1] = tmp;
-            tmp = imgtypes[id - 1];
-            imgtypes[id - 1] = imgtypes[prev - 1];
-            imgtypes[prev - 1] = tmp;
-            return true;
-        }
-        function down_func(id) {
-            if (typeof id === 'string') id = parseInt(id);
-            if (id == count()) {
-                return false;
-            }
-            let next = id + 1;
-            let tmp = $i("fn_" + id).innerHTML;
-            $i("fn_" + id).innerHTML = $i("fn_" + next).innerHTML;
-            $i("fn_" + next).innerHTML = tmp;
-            tmp = $i("result_" + id).innerHTML;
-            $i("result_" + id).innerHTML = $i("result_" + next).innerHTML;
-            $i("result_" + next).innerHTML = tmp;
-            tmp = imgpaths[id - 1];
-            imgpaths[id - 1] = imgpaths[next - 1];
-            imgpaths[next - 1] = tmp;
-            tmp = imgtypes[id - 1];
-            imgtypes[id - 1] = imgtypes[next - 1];
-            imgtypes[next - 1] = tmp;
-            return true;
-        }
-        function trash_func(id) {
-            if (typeof id === 'string') id = parseInt(id);
-            let next = count() - 1;
-            let tmp = $i("fn_" + id).innerHTML;
-            $i("fn_" + id).innerHTML = $i("fn_" + next).innerHTML;
-            $i("fn_" + next).innerHTML = tmp;
-            tmp = $i("result_" + id).innerHTML;
-            $i("result_" + id).innerHTML = $i("result_" + next).innerHTML;
-            $i("result_" + next).innerHTML = tmp;
-            $i("li_" + next).remove();
-            cmm();
-            // remove id from imgpaths
-            imgpaths.splice(id - 1, 1);
-            // remove id from imgtypes
-            imgtypes.splice(id - 1, 1);
-            return true;
-        }
-        function edit(id) {
-            let c = prompt("", $i("result_" + id).innerHTML);
-            $i("result_" + id).innerHTML = c;
-        }
-        function orig(id) {
-            nw.Window.get(window.open(imgpaths[id - 1]));
-        }
-        function save() {
-            let resultpath = path + "/result.txt";
-            let result = "";
-            for (let i = 1; i < count(); i++)
-                result += $i("result_" + i).innerHTML + newline();
-            fs.writeFileSync(resultpath, result);
-            let srcfolder = path + "/src";
-            fs.mkdirSync(srcfolder);
-            // copy files from imgpaths and name them according to their id
-            let ipath = [];
-            for (let i = 0; i < imgpaths.length; i++) {
-                fs.copyFileSync(imgpaths[i], srcfolder+"/"+(i+1)+suffix(imgtypes[i]));
-                ipath.push(srcfolder+"/"+(i+1)+suffix(imgtypes[i]));
-                fs.writeFileSync(srcfolder+"/"+(i+1)+".txt", $i("result_" + (i+1)).innerHTML);
-            }
-            json_mfs["result"] = resultpath;
-            json_mfs["src"] = ipath;
-            fs.writeFileSync(path+"/project.json", JSON.stringify(json_mfs));
-            window.location.href="success.html";
-        }
+        json_mfs["result"] = resultpath;
+        json_mfs["src"] = ipath;
+        fs.writeFileSync(path + "/project.json", JSON.stringify(json_mfs));
+        window.location.href = "success.html";
+      }
     </script>
-</body>
-
+  </body>
 </html>

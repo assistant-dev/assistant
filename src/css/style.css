@@ -1,24 +1,25 @@
 body {
-    margin: 10px 5px 15px 20px; font-size: 12px;
+  margin: 10px 5px 15px 20px;
+  font-size: 12px;
 }
 
 .hidden {
-    display: none;
+  display: none;
 }
 
 .dblue {
-    color: darkblue;
+  color: darkblue;
 }
 
 .red {
-    color: rgba(255, 0, 0, 0.527); 
+  color: rgba(255, 0, 0, 0.527);
 }
 
 .trans {
-    background-color: transparent;
-    border-style: none;
+  background-color: transparent;
+  border-style: none;
 }
 
 .green {
-    color: rgb(12, 180, 12);
+  color: rgb(12, 180, 12);
 }
