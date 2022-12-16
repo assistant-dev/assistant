@@ -42,7 +42,7 @@ async function getRsp(file) {
  * @param {string} file The path of the file to be recognized.
  * @returns {string} The text of the xfyun response, with the plain text. Useful.
  */
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line
 async function ocr(file) {
   let text = await getRsp(file);
   let json = JSON.parse(text);

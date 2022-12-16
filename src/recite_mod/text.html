@@ -12,24 +12,23 @@
   </head>
   <body>
     <div class="container" id="app">
-      <b><loc>recite_type</loc></b>
-      <select class="form-select form-select-sm" title="lr_type" id="lr_type">
-        <option value="" class="loc">please_select</option>
-        <option value="text" class="loc">text</option>
-        <option value="image" class="loc">image</option>
-        <option value="audio" class="loc">audio</option>
-      </select>
+      <b><loc>enter_prompt</loc></b
+      ><br />
+      <textarea
+        id="text"
+        rows="10"
+        aria-label="textarea"
+        class="form-control"
+      ></textarea
+      ><br />
       <br />
-      <button
-        type="button"
-        class="btn btn-primary"
-        onclick="window.location.href=$i('lr_type').value+'.html';"
-      >
+      <button type="button" class="btn btn-primary" onclick="submit()">
         <loc>go_ahead</loc>
       </button>
     </div>
     <script src="../js/app.js"></script>
     <script src="../js/lang.js"></script>
+    <script src="../js/diff.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
       window.onload = function () {
@@ -42,6 +41,20 @@
         let cfg = JSON.parse(fc(config_path()));
         update(cfg.language);
       };
+      let path = localStorage.getItem("project_path");
+      let json_mfs = JSON.parse(fc(path + "/project.json"));
+      function submit() {
+        let src = fs
+          .readFileSync(
+            typeof json_mfs.src == "string" ? json_mfs.src : json_mfs.result
+          )
+          .toString();
+        let dif = diff(src, $i("text").value);
+        localStorage.setItem("osd", src);
+        localStorage.setItem("nsd", $i("text").value);
+        localStorage.setItem("dft", dif);
+        window.location.href = "showdiff.html";
+      }
     </script>
   </body>
 </html>

@@ -59,7 +59,7 @@ async function getRsp(file, lang) {
   return response.text();
 }
 
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line
 async function ifasr(file, lang) {
   let text = await getRsp(file, lang);
 
@@ -108,7 +108,7 @@ async function getRsp2(orderId) {
   return response.text();
 }
 
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line
 async function ifasrq(orderId) {
   let text = await getRsp2(orderId);
 

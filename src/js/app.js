@@ -31,7 +31,7 @@ function config_folder() {
  * @requires fs
  * @returns {boolean} If the assistant is the first time to run
  */
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line
 function detect_first_run() {
   return !fs.existsSync(config_path());
 }
@@ -42,7 +42,7 @@ function detect_first_run() {
  * @param {string} id The id of the element
  * @returns {HTMLElement} The HTML element with the id.
  */
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line
 function $i(id) {
   return document.getElementById(id);
 }
@@ -54,7 +54,7 @@ function $i(id) {
  * @param {object} options The options of the element, like id, className, style, etc.
  * @returns {HTMLElement} The created element with <$tag> tag
  */
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line
 function $c(tag, options = {}) {
   let cr = document.createElement(tag);
   if (options) {
@@ -73,7 +73,7 @@ function $c(tag, options = {}) {
  * @uses $i('language')
  * @requires fs
  */
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line
 function save_preferences() {
   let folder = config_folder();
   if (!fs.existsSync(folder)) fs.mkdirSync(folder);
@@ -95,7 +95,7 @@ function save_preferences() {
  * @requires fs
  * @returns {string} The content of the file
  */
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line
 function fc(file) {
   let rd = fs.readFileSync(file);
   return rd.toString();
@@ -107,7 +107,7 @@ function fc(file) {
  * @requires os
  * @returns {string} The new line string (char) of the current platform
  */
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line
 function newline() {
   return os.platform() == "win32" ? "\r\n" : "\n";
 }
@@ -118,7 +118,7 @@ function newline() {
  * @param {string} imgtype A MIME type
  * @returns {string} The extension of the file type
  */
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line
 function suffix(imgtype) {
   if (imgtype == "image/png") return ".png";
   else if (imgtype == "image/jpeg") return ".jpeg";
@@ -136,7 +136,7 @@ function suffix(imgtype) {
  * @requires path
  * @returns {string} The name of the file
  */
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line
 function fileNameByPath(_path) {
   return pathr.basename(_path);
 }
@@ -148,7 +148,7 @@ function fileNameByPath(_path) {
  * @requires fs
  * @returns {number} The size of the file in bytes
  */
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line
 function fileSize(path) {
   try {
     const stats = fs.statSync(path);
@@ -164,7 +164,7 @@ function fileSize(path) {
  * @param {number} milisec The miliseconds to convert
  * @returns {num} The seconds.
  */
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line
 function mts(milisec) {
   return milisec / 1000;
 }
@@ -176,7 +176,7 @@ function mts(milisec) {
  * @param {string} lang The language option. Defaults to "en-US", options see js/lang.js
  * @returns {string} The human-readable text
  */
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line
 function ttext(sec, lang = "en-US") {
   let min = Math.floor(sec / 60);
   let sec2 = Math.floor(sec % 60);
@@ -187,7 +187,7 @@ function ttext(sec, lang = "en-US") {
   }
 }
 
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line
 function readfb(path, bytes) {
   // read $bytes bytes of $path
   let fd = fs.openSync(path, "r");

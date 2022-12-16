@@ -8,7 +8,7 @@ let zh_CN = {
   all_set: "<b>一切就绪！</b> 您现在可以使用Assistant帮助您背诵了。",
   go_ahead: "继续",
   add_piece: "+ 新增背诵",
-  open_piece: "加载历史背诵",
+  open_piece: "加载文件",
   lr_type: "录入方式：",
   please_select: "请选择……",
   text: "文本",
@@ -31,13 +31,16 @@ let zh_CN = {
   success: "<b>成功！</b> 您的背诵已经成功录入，开始您的背诵吧！",
   bti: "返回首页", // Back to index
   recite_type: "背诵方式：",
+  origin_text: "源文字：",
+  recite_text: "背诵文字：",
+  diff_text: "差异文字：",
 };
 
 let zh_HK = {
   all_set: "<b>一切就緒！</b> 您現在可以使用Assistant幫助您背誦了。",
   go_ahead: "繼續",
   add_piece: "+ 新增背誦",
-  open_piece: "加載歷史背誦",
+  open_piece: "加載文件",
   lr_type: "錄入方式：",
   please_select: "請選擇……",
   text: "文本",
@@ -60,6 +63,9 @@ let zh_HK = {
   success: "<b>成功！</b> 您的背誦已經成功錄入，開始您的背誦吧！",
   bti: "返回首頁", // Back to index
   recite_type: "背誦方式：",
+  origin_text: "源文字：",
+  recite_text: "背誦文字：",
+  diff_text: "差異文字：",
 };
 
 let en_US = {
@@ -67,7 +73,7 @@ let en_US = {
     "<b>You're all set! </b> You can now use Assistant to help you with reciting.",
   go_ahead: "Go ahead",
   add_piece: "+ Add piece",
-  open_piece: "Load history pieces",
+  open_piece: "Load pieces",
   lr_type: "Input type:",
   please_select: "Please select...",
   text: "Text",
@@ -91,6 +97,9 @@ let en_US = {
     "<b>Success!</b> Your reciting has been successfully input, why not start your reciting now?",
   bti: "Back home", // Back to index
   recite_type: "Recite type:",
+  origin_text: "Original text:",
+  recite_text: "Recite text:",
+  diff_text: "Diff text:",
 };
 
 /**
@@ -108,7 +117,7 @@ let lang = {
  * @brief Update <lang label="..." /> tags.
  * @param {string} loc
  */
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line
 function update(loc) {
   let sel = document.getElementsByTagName("loc");
   for (var i in sel) sel[i].innerHTML = lang[loc][sel[i].innerHTML];
