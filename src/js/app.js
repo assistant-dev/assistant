@@ -1,7 +1,6 @@
 var os = require("os");
 var fs = require("fs");
 var pathr = require("path");
-var mm = require("music-metadata");
 
 /**
  * config_path()
@@ -150,25 +149,6 @@ function fileSize(path) {
   try {
     const stats = fs.statSync(path);
     return stats.size;
-  } catch (err) {
-    return -1;
-  }
-}
-
-/**
- * duration()
- * @brief Get the duration of a file
- * @param {string} audio_file The path of the audio file
- * @requires fs
- * @requires music-metadata
- * @returns {number} The duration of the audio file in miliseconds
- */
-// eslint-disable-next-line no-unused-vars
-async function duration(audio_file) {
-  try {
-    const stream = fs.createReadStream(audio_file);
-    const metadata = await mm.parseStream(stream);
-    return metadata.format.duration * 1000;
   } catch (err) {
     return -1;
   }

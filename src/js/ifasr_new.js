@@ -7,6 +7,11 @@ var CryptoJS = require("crypto-js");
 var querystring = require("querystring");
 var buffer = require("buffer");
 
+function duration(audioFile) {
+  let audio = new Audio(audioFile);
+  return audio.duration;
+}
+
 async function getRsp(file, lang) {
   let json = JSON.parse(fc(config_folder() + "/.xfyun"));
 
@@ -21,25 +26,28 @@ async function getRsp(file, lang) {
     appId: config.appid,
     fileName: fileNameByPath(file),
     fileSize: fileSize(file),
-    duration: await duration(file),
+    duration: duration(file),
     language: lang,
   };
 
   body.ts = parseInt(new Date().getTime() / 1000);
 
   let baseString = config.appid + body.ts;
+  // use utf-8
+  baseString = CryptoJS.MD5(baseString, { encoding: CryptoJS.enc.Utf8 }).toString();
+  baseString = CryptoJS.HmacSHA1(baseString, config.secretKey, { encoding: CryptoJS.enc.Utf8 }).toString();
+  baseString = window.btoa(baseString);
 
-  baseString = CryptoJS.MD5(baseString);
-
-  baseString = CryptoJS.HmacSHA1(baseString, config.secretKey);
-
-  baseString = buffer.Buffer.from(baseString).toString("base64");
+  console.log(baseString);
 
   body.signa = baseString;
 
-  const response = await fetch(config.url, {
+  const response = await fetch(config.url+"?" + querystring.stringify(body), {
     method: "POST",
-    body: querystring.stringify(body),
+    body: fc(config.file),
+    headers: {
+      "Content-Type": "application/octet-stream",
+    }
   });
 
   return response.text();
@@ -81,7 +89,7 @@ async function getRsp2(orderId) {
 
   baseString = CryptoJS.HmacSHA1(baseString, config.secretKey);
 
-  baseString = buffer.Buffer.from(baseString).toString("base64");
+  baseString = window.btoa(baseString);
 
   body.signa = baseString;
 

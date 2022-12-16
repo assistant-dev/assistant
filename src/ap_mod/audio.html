@@ -50,79 +50,6 @@
     </div>
     <ol class="list-group list-group-sm list-group-numbered" id="lg">
       <input type="hidden" id="count" value="1" />
-      <li
-        class="list-group-item d-flex justify-content-between align-items-start"
-      >
-        <div class="ms-2 me-auto">
-          <div class="fw-bold" id="fn_(count)">File Name</div>
-          <span id="result_(count)">Result</span>
-        </div>
-        <div id="preshow_(count)">
-          <button
-            type="button"
-            class="btn btn-light trans"
-            onclick="refresh(count)"
-            title="refresh"
-          >
-            <i class="bi bi-arrow-clockwise green"></i>
-          </button>
-          <button
-            type="button"
-            class="btn btn-light trans"
-            onclick="delete_audio(count)"
-            title="delete"
-          >
-            <i class="bi bi-trash3-fill red"></i>
-          </button>
-        </div>
-        <div id="show_(count)">
-          <button
-            type="button"
-            id="editbtn_(count)"
-            class="btn btn-light trans"
-            onclick="edit(count)"
-            title="edit"
-          >
-            <i class="bi bi-pencil-fill green" id="edit_(count)"></i>
-          </button>
-          <button
-            type="button"
-            id="playbtn_(count)"
-            class="btn btn-light trans"
-            onclick="play(count)"
-            title="play"
-          >
-            <i class="bi bi-file-earmark-play-fill green" id="play_(count)"></i>
-          </button>
-          <button
-            type="button"
-            id="upbtn_(count)"
-            class="btn btn-light trans"
-            onclick="up_func(count)"
-            title="upbtn"
-          >
-            <i class="bi bi-caret-up-fill dblue" id="up_(count)"></i>
-          </button>
-          <button
-            type="button"
-            id="downbtn_(count)"
-            class="btn btn-light trans"
-            onclick="down_func(count)"
-            title="downbtn"
-          >
-            <i class="bi bi-caret-down-fill dblue" id="down_(count)"></i>
-          </button>
-          <button
-            type="button"
-            id="trashbtn_(count)"
-            class="btn btn-light trans"
-            onclick="trash_func(count)"
-            title="trashbtn"
-          >
-            <i class="bi bi-trash3-fill red" id="trashbin_(count)"></i>
-          </button>
-        </div>
-      </li>
     </ol>
     <script src="../js/app.js"></script>
     <script src="../js/lang.js"></script>
@@ -155,7 +82,7 @@
           innerHTML: ttext(esTime),
         });
         progress.appendChild(progressbar);
-        let result = $id("result_" + count);
+        let result = $i("result_" + count);
         result.appendChild(progress);
         const originalEs = esTime;
         // assign an id for the progress bar
@@ -192,7 +119,8 @@
             if (
               file_type == "audio/wav" ||
               file_type == "audio/mpeg" ||
-              file_type == "audio/mp4"
+              file_type == "audio/mp4" ||
+              file_type == "audio/x-m4a"
             ) {
               let count = $i("count").value;
               // get the file name
