@@ -11,28 +11,30 @@
     <link href="../css/style.css" rel="stylesheet" />
   </head>
   <body>
-    <div class="container">
-      <div
-        class="alert alert-sm alert-success d-flex align-items-center"
-        role="alert"
-      >
-        <div>
-          <loc>success</loc>
-        </div>
-      </div>
+    <div class="container" id="app">
+      <b><loc>recite_type</loc></b>
+      <select class="form-select form-select-sm" title="lr_type" id="lr_type">
+        <option value="" class="loc">please_select</option>
+        <option value="text" class="loc">text</option>
+        <option value="image" class="loc">image</option>
+        <option value="audio" class="loc">audio</option>
+      </select>
       <br />
-      <a href="../recite_mod/index.html" class="btn btn-sm btn-primary"
-        ><loc>go_ahead</loc></a
-      >&nbsp;&nbsp;
-      <a href="../index.html" class="btn btn-sm btn-secondary" onclick="localStorage.removeItem('project_path')">
-        <loc>bti</loc>
-      </a>
+      <button type="button" class="btn btn-primary" onclick="window.location.href=$i('lr_type').value+'.html';">
+        <loc>go_ahead</loc>
+      </button>
     </div>
     <script src="../js/app.js"></script>
     <script src="../js/lang.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
       window.onload = function () {
+        let firstRun = detect_first_run();
+        if (firstRun) {
+          var link = document.createElement("a");
+          link.href = "../first_run.html";
+          link.click();
+        }
         let cfg = JSON.parse(fc(config_path()));
         update(cfg.language);
       };

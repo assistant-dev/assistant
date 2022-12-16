@@ -54,7 +54,7 @@
         let firstRun = detect_first_run();
         if (firstRun) {
           var link = document.createElement("a");
-          link.href = "first_run.html";
+          link.href = "../first_run.html";
           link.click();
         }
         let cfg = JSON.parse(fc(config_path()));
