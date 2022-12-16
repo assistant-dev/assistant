@@ -28,6 +28,8 @@ let zh_CN = {
   completed: "完成",
   plz_wait: "请稍候……",
   langsel_prompt: "请您先选择好需要录入的语言。",
+  success: "<b>成功！</b> 您的背诵已经成功录入，开始您的背诵吧！",
+  bti: "返回首页", // Back to index
 };
 
 let zh_HK = {
@@ -54,6 +56,8 @@ let zh_HK = {
   completed: "完成",
   plz_wait: "請稍候……",
   langsel_prompt: "請您先選擇好需要錄入的語言。",
+  success: "<b>成功！</b> 您的背誦已經成功錄入，開始您的背誦吧！",
+  bti: "返回首頁", // Back to index
 };
 
 let en_US = {
@@ -81,6 +85,9 @@ let en_US = {
   completed: "Completed",
   plz_wait: "Please wait...",
   langsel_prompt: "Please select the language you want to input first.",
+  success:
+    "<b>Success!</b> Your reciting has been successfully input, why not start your reciting now?",
+  bti: "Back home", // Back to index
 };
 
 /**
