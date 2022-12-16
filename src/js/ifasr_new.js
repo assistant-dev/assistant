@@ -3,13 +3,17 @@
 /* global fileNameByPath */
 /* global fileSize */
 /* global duration */
+/* global readfb */
 var CryptoJS = require("crypto-js");
 var querystring = require("querystring");
 var buffer = require("buffer");
 
-function duration(audioFile) {
+/*function duration(audioFile) {
   let audio = new Audio(audioFile);
   return audio.duration;
+}*/
+function duration(audioFile) {
+  return 30;
 }
 
 async function getRsp(file, lang) {
@@ -34,20 +38,22 @@ async function getRsp(file, lang) {
 
   let baseString = config.appid + body.ts;
   // use utf-8
-  baseString = CryptoJS.MD5(baseString, { encoding: CryptoJS.enc.Utf8 }).toString();
-  baseString = CryptoJS.HmacSHA1(baseString, config.secretKey, { encoding: CryptoJS.enc.Utf8 }).toString();
-  baseString = window.btoa(baseString);
+  baseString = CryptoJS.MD5(baseString, {
+    encoding: CryptoJS.enc.Utf8,
+  }).toString();
 
-  console.log(baseString);
+  baseString = CryptoJS.HmacSHA1(baseString, config.secretKey, {
+    encoding: CryptoJS.enc.Utf8,
+  }).toString(CryptoJS.enc.Base64);
 
   body.signa = baseString;
 
-  const response = await fetch(config.url+"?" + querystring.stringify(body), {
+  const response = await fetch(config.url + "?" + querystring.stringify(body), {
     method: "POST",
-    body: fc(config.file),
+    body: readfb(config.file, body.fileSize),
     headers: {
       "Content-Type": "application/octet-stream",
-    }
+    },
   });
 
   return response.text();
@@ -84,18 +90,19 @@ async function getRsp2(orderId) {
   body.ts = parseInt(new Date().getTime() / 1000);
 
   let baseString = config.appid + body.ts;
+  // use utf-8
+  baseString = CryptoJS.MD5(baseString, {
+    encoding: CryptoJS.enc.Utf8,
+  }).toString();
 
-  baseString = CryptoJS.MD5(baseString);
-
-  baseString = CryptoJS.HmacSHA1(baseString, config.secretKey);
-
-  baseString = window.btoa(baseString);
+  baseString = CryptoJS.HmacSHA1(baseString, config.secretKey, {
+    encoding: CryptoJS.enc.Utf8,
+  }).toString(CryptoJS.enc.Base64);
 
   body.signa = baseString;
 
-  const response = await fetch(config.url, {
+  const response = await fetch(config.url + "?" + querystring.stringify(body), {
     method: "POST",
-    body: querystring.stringify(body),
   });
 
   return response.text();

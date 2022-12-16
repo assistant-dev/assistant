@@ -27,6 +27,7 @@ let zh_CN = {
   seconds: "秒",
   completed: "完成",
   plz_wait: "请稍候……",
+  langsel_prompt: "请您先选择好需要录入的语言。",
 };
 
 let zh_HK = {
@@ -52,6 +53,7 @@ let zh_HK = {
   seconds: "秒",
   completed: "完成",
   plz_wait: "請稍候……",
+  langsel_prompt: "請您先選擇好需要錄入的語言。",
 };
 
 let en_US = {
@@ -78,6 +80,7 @@ let en_US = {
   seconds: "seconds",
   completed: "Completed",
   plz_wait: "Please wait...",
+  langsel_prompt: "Please select the language you want to input first.",
 };
 
 /**

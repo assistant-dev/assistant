@@ -70,7 +70,10 @@
       let json_mfs = JSON.parse(fc(path + "/project.json"));
       let pagecnt = 0;
       let assignProg = [],
-        orderIds = [];
+        orderIds = [],
+        itvIds = [],
+        audioPaths = [],
+        audioTypes = [];
       function progressbar(count, esTime) {
         let progress = $c("div", {
           className: "progress",
@@ -87,18 +90,25 @@
         const originalEs = esTime;
         // assign an id for the progress bar
         progressbar.id = "progress_" + pagecnt;
-        setInterval(() => {
+        const itv = setInterval(() => {
           esTime--;
           progressbar.style.width =
             ((originalEs - esTime) / originalEs) * 100 + "%";
           if (!esTime) {
             progressbar.style.color = "lightgreen";
-            $i("refresh_" + count).class = "bi bi-arrow-clockwise green";
+            $i("refresh_" + count).className = "bi bi-arrow-clockwise green";
             $i("refreshbtn_" + count).disabled = false;
+            refresh(count);
+            stopitv(count);
           }
           progressbar.innerHTML = ttext(esTime);
         }, 1000);
+        itvIds.push(itv);
         return pagecnt;
+      }
+      function stopitv(count) {
+        let itv = itvIds[count - 1];
+        clearInterval(itv);
       }
       function getBtn(type, count, icon, color, disabled = false) {
         return `<button class="btn btn-light trans" id="${type}btn_${count}" onclick="${type}(${count})" title="${type}"${
@@ -108,6 +118,10 @@
         }" id="${type}_${count}"></i></button>`;
       }
       function add_audio() {
+        if ($i("lang-sel").value == "") {
+          alert(lang[cfg.language]["langsel_prompt"]);
+          return;
+        }
         let file = $i("file");
         file.click();
         file.onchange = async function () {
@@ -129,14 +143,15 @@
               let result = await ifasr(file_path, $i("lang-sel").value);
               // record properties
               let orderId = result.orderId,
-                esTime = result.taskEstimateTime;
+                esTime = result.taskEstimateTime / 1000;
               // add result to lg
               let lg = $i("lg");
               let li = $c("li", {
                 id: "li_" + count,
                 className:
-                  "list-group-item d-flex justify-content-between align-items-start",
+                  "list-group-item justify-content-between align-items-start",
               });
+              lg.appendChild(li);
               let div = $c("div", {
                 className: "ms-2 me-auto",
               });
@@ -158,6 +173,7 @@
               });
               let div_preshow = $c("div", {
                 id: "preshow_" + count,
+                className: "shown",
               });
               div_preshow.innerHTML += getBtn(
                 "refresh",
@@ -175,43 +191,50 @@
               );
               let div_aftershow = $c("div", {
                 id: "aftershow_" + count,
+                className: "hidden",
               });
               div_aftershow.innerHTML += getBtn(
                 "edit",
                 count,
                 "pencil-fill",
                 "green",
-                true
+                false
               );
               div_aftershow.innerHTML += getBtn(
                 "play",
                 count,
                 "file-earmark-play-fill",
                 "green",
-                true
+                false
               );
               div_aftershow.innerHTML += getBtn(
                 "up",
                 count,
                 "caret-up-fill",
                 "dblue",
-                true
+                false
               );
               div_aftershow.innerHTML += getBtn(
                 "down",
                 count,
                 "caret-down-fill",
                 "dblue",
-                true
+                false
               );
               div_aftershow.innerHTML += getBtn(
                 "trash",
                 count,
                 "trash3-fill",
                 "red",
-                true
+                false
               );
+              div_op_area.appendChild(div_preshow);
+              div_op_area.appendChild(div_aftershow);
+              li.appendChild(div_op_area);
               orderIds.push(orderId);
+              audioPaths.push(file_path);
+              audioTypes.push(file_type);
+              $i("count").value = parseInt(count) + 1;
             }
           }
         };
@@ -227,6 +250,130 @@
         // get rid of the refresh button, and the delete button
         $i("preshow_" + count).className = "hidden";
         $i("aftershow_" + count).className = "shown";
+      }
+      function up(count) {
+        if (count == 1) {
+          return false;
+        }
+        let prev = count - 1;
+        let res1 = $i("result_" + count),
+          res2 = $i("result_" + prev);
+        let fn1 = $i("fn_" + count),
+          fn2 = $i("fn_" + prev);
+        let tmp = res1.innerHTML;
+        res1.innerHTML = res2.innerHTML;
+        res2.innerHTML = tmp;
+        tmp = fn1.innerHTML;
+        fn1.innerHTML = fn2.innerHTML;
+        fn2.innerHTML = tmp;
+        tmp = audioPaths[count];
+        audioPaths[count] = audioPaths[prev];
+        audioPaths[prev] = tmp;
+        tmp = orderIds[count];
+        orderIds[count] = orderIds[prev];
+        orderIds[prev] = tmp;
+        tmp = assignProg[count];
+        assignProg[count] = assignProg[prev];
+        assignProg[prev] = tmp;
+        tmp = audioTypes[count];
+        audioTypes[count] = audioTypes[prev];
+        audioTypes[prev] = tmp;
+      }
+      function down(count) {
+        if (count == orderIds.length) {
+          return false;
+        }
+        let next = count + 1;
+        let res1 = $i("result_" + count),
+          res2 = $i("result_" + next);
+        let fn1 = $i("fn_" + count),
+          fn2 = $i("fn_" + next);
+        let tmp = res1.innerHTML;
+        res1.innerHTML = res2.innerHTML;
+        res2.innerHTML = tmp;
+        tmp = fn1.innerHTML;
+        fn1.innerHTML = fn2.innerHTML;
+        fn2.innerHTML = tmp;
+        tmp = audioPaths[count];
+        audioPaths[count] = audioPaths[next];
+        audioPaths[next] = tmp;
+        tmp = orderIds[count];
+        orderIds[count] = orderIds[next];
+        orderIds[next] = tmp;
+        tmp = assignProg[count];
+        assignProg[count] = assignProg[next];
+        assignProg[next] = tmp;
+        tmp = audioTypes[count];
+        audioTypes[count] = audioTypes[next];
+        audioTypes[next] = tmp;
+      }
+      function edit(count) {
+        let res = $i("result_" + count);
+        let prpt = prompt("", res.innerHTML);
+        if (prompt !== null) {
+          res.innerHTML = prpt;
+        }
+      }
+      function trash(count) {
+        // swap the last one with the current one
+        let last = $i("count").value - 1;
+        let res1 = $i("result_" + count),
+          res2 = $i("result_" + last);
+        let fn1 = $i("fn_" + count),
+          fn2 = $i("fn_" + last);
+        let tmp = res1.innerHTML;
+        res1.innerHTML = res2.innerHTML;
+        res2.innerHTML = tmp;
+        tmp = fn1.innerHTML;
+        fn1.innerHTML = fn2.innerHTML;
+        fn2.innerHTML = tmp;
+        tmp = audioPaths[count];
+        audioPaths[count] = audioPaths[last];
+        audioPaths[last] = tmp;
+        tmp = orderIds[count];
+        orderIds[count] = orderIds[last];
+        orderIds[last] = tmp;
+        tmp = assignProg[count];
+        assignProg[count] = assignProg[last];
+        assignProg[last] = tmp;
+        tmp = audioTypes[count];
+        audioTypes[count] = audioTypes[last];
+        audioTypes[last] = tmp;
+        // remove the last one
+        $i("count").value--;
+        $i("li_" + last).remove();
+        orderIds.pop();
+        audioPaths.pop();
+        assignProg.pop();
+        audioTypes.pop();
+      }
+      function play(count) {
+        nw.Window.get(window.open(audioPaths[count - 1]));
+      }
+      function save() {
+        let resultPath = path + "/result.txt";
+        let result = "";
+        for (let i = 1; i < $i("count").value; i++)
+          result += $i("result_" + i).innerHTML + newline();
+        fs.writeFileSync(resultPath, result);
+        let srcFolder = path + "/src";
+        fs.mkdirSync(srcFolder);
+        let ipath = [];
+        for (let i = 0; i < audioPaths.length; i++) {
+          fs.copyFileSync(
+            audioPaths[i],
+            srcFolder + "/" + (i + 1) + suffix(audioTypes[i])
+          );
+          ipath.push(srcFolder + "/" + (i + 1) + suffix(audioTypes[i]));
+          fs.writeFileSync(
+            srcFolder + "/" + (i + 1) + ".txt",
+            $i("result_" + (i + 1)).innerHTML
+          );
+        }
+        json_mfs["result"] = resultPath;
+        json_mfs["src"] = ipath;
+        fs.writeFileSync(path + "/project.json", JSON.stringify(json_mfs));
+        window.location.href = "success.html";
       }
     </script>
   </body>

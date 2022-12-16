@@ -122,6 +122,10 @@ function newline() {
 function suffix(imgtype) {
   if (imgtype == "image/png") return ".png";
   else if (imgtype == "image/jpeg") return ".jpeg";
+  else if (imgtype == "audio/mpeg") return ".mp3";
+  else if (imgtype == "audio/wav") return ".wav";
+  else if (imgtype == "audio/mp4") return ".mp4";
+  else if (imgtype == "audio/x-m4a") return ".m4a";
   else return "";
 }
 
@@ -176,9 +180,19 @@ function mts(milisec) {
 function ttext(sec, lang = "en-US") {
   let min = Math.floor(sec / 60);
   let sec2 = Math.floor(sec % 60);
-  if (lang == "zh-CN") {
+  if (lang == "cn") {
     return min + "分钟" + sec2 + "秒";
   } else {
     return min + " minutes " + sec2 + " seconds";
   }
+}
+
+// eslint-disable-next-line no-unused-vars
+function readfb(path, bytes) {
+  // read $bytes bytes of $path
+  let fd = fs.openSync(path, "r");
+  let buf = Buffer.alloc(bytes);
+  fs.readSync(fd, buf, 0, bytes, 0);
+  fs.closeSync(fd);
+  return buf;
 }
