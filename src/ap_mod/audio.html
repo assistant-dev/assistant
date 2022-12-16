@@ -72,7 +72,7 @@
             onclick="delete_audio(count)"
             title="delete"
           >
-            <i class="bi bi-trash red"></i>
+            <i class="bi bi-trash3-fill red"></i>
           </button>
         </div>
         <div id="show_(count)">
@@ -141,6 +141,45 @@
       update(cfg.language);
       let path = localStorage.getItem("project_path");
       let json_mfs = JSON.parse(fc(path + "/project.json"));
+      let pagecnt = 0;
+      let assignProg = [],
+        orderIds = [];
+      function progressbar(count, esTime) {
+        let progress = $c("div", {
+          className: "progress",
+        });
+        let progressbar = $c("div", {
+          className: "progress-bar",
+          role: "progressbar",
+          style: "width: 0%",
+          innerHTML: ttext(esTime),
+        });
+        progress.appendChild(progressbar);
+        let result = $id("result_" + count);
+        result.appendChild(progress);
+        const originalEs = esTime;
+        // assign an id for the progress bar
+        progressbar.id = "progress_" + pagecnt;
+        setInterval(() => {
+          esTime--;
+          progressbar.style.width =
+            ((originalEs - esTime) / originalEs) * 100 + "%";
+          if (!esTime) {
+            progressbar.style.color = "lightgreen";
+            $i("refresh_" + count).class = "bi bi-arrow-clockwise green";
+            $i("refreshbtn_" + count).disabled = false;
+          }
+          progressbar.innerHTML = ttext(esTime);
+        }, 1000);
+        return pagecnt;
+      }
+      function getBtn(type, count, icon, color, disabled = false) {
+        return `<button class="btn btn-light trans" id="${type}btn_${count}" onclick="${type}(${count})" title="${type}"${
+          disabled ? " disabled" : ""
+        }><i class="bi bi-${icon} ${color}${
+          disabled ? " disabled" : ""
+        }" id="${type}_${count}"></i></button>`;
+      }
       function add_audio() {
         let file = $i("file");
         file.click();
@@ -155,13 +194,111 @@
               file_type == "audio/mpeg" ||
               file_type == "audio/mp4"
             ) {
+              let count = $i("count").value;
               // get the file name
               let file_name = files[key].name;
               // get the audio result
               let result = await ifasr(file_path, $i("lang-sel").value);
+              // record properties
+              let orderId = result.orderId,
+                esTime = result.taskEstimateTime;
+              // add result to lg
+              let lg = $i("lg");
+              let li = $c("li", {
+                id: "li_" + count,
+                className:
+                  "list-group-item d-flex justify-content-between align-items-start",
+              });
+              let div = $c("div", {
+                className: "ms-2 me-auto",
+              });
+              let div_fw = $c("div", {
+                className: "fw-bold",
+                id: "fn_" + count,
+                innerHTML: file_name,
+              });
+              let span = $c("span", {
+                id: "result_" + count,
+              });
+              div.appendChild(div_fw);
+              div.appendChild(span);
+              li.appendChild(div);
+              let assignId = progressbar(count, esTime);
+              assignProg.push(assignId);
+              let div_op_area = $c("div", {
+                id: "op_area_" + count,
+              });
+              let div_preshow = $c("div", {
+                id: "preshow_" + count,
+              });
+              div_preshow.innerHTML += getBtn(
+                "refresh",
+                count,
+                "arrow-clockwise",
+                "green",
+                true
+              );
+              div_preshow.innerHTML += getBtn(
+                "trash",
+                count,
+                "trash3-fill",
+                "red",
+                false
+              );
+              let div_aftershow = $c("div", {
+                id: "aftershow_" + count,
+              });
+              div_aftershow.innerHTML += getBtn(
+                "edit",
+                count,
+                "pencil-fill",
+                "green",
+                true
+              );
+              div_aftershow.innerHTML += getBtn(
+                "play",
+                count,
+                "file-earmark-play-fill",
+                "green",
+                true
+              );
+              div_aftershow.innerHTML += getBtn(
+                "up",
+                count,
+                "caret-up-fill",
+                "dblue",
+                true
+              );
+              div_aftershow.innerHTML += getBtn(
+                "down",
+                count,
+                "caret-down-fill",
+                "dblue",
+                true
+              );
+              div_aftershow.innerHTML += getBtn(
+                "trash",
+                count,
+                "trash3-fill",
+                "red",
+                true
+              );
+              orderIds.push(orderId);
             }
           }
         };
+      }
+      async function refresh(count) {
+        let result = await ifasrq(orderIds[count - 1]);
+        if (result === -1) {
+          // not ready yet
+          alert(lang[cfg.language]["plz_wait"]);
+          return false;
+        }
+        $i("result_" + count).innerHTML = result;
+        // get rid of the refresh button, and the delete button
+        $i("preshow_" + count).className = "hidden";
+        $i("aftershow_" + count).className = "shown";
       }
     </script>
   </body>

@@ -14,17 +14,21 @@
     "build-sdk": "nwbuild --platform win --version 0.70.1 --arch x64 --outDir release-sdk/ --flavour sdk src/",
     "format": "prettier --write .",
     "check": "prettier --check .",
-    "test": "jest"
+    "lint": "eslint",
+    "rm": "node delete.js",
+    "rebuild": "nwbuild --platform win --version 0.70.1 --arch x64 --outDir release/ --flavour normal src/ && nwbuild --platform win --version 0.70.1 --arch x64 --outDir release-sdk/ --flavour sdk src/",
+    "run": "./release/assistant.exe",
+    "run-sdk": "./release-sdk/assistant.exe"
   },
   "dependencies": {
-    "@types/node": "^18.11.13",
+    "@types/node": "^18.11.15",
     "crypto-js": "^4.1.1",
     "express": "^4.18.2",
     "log4node": "^0.1.6",
-    "music-metadata": "^8.1.0",
     "nw": "^0.71.0",
     "nw-builder": "^4.0.2",
-    "prettier": "^2.8.1"
+    "prettier": "^2.8.1",
+    "promises": "^0.2.5"
   },
   "devDependencies": {
     "eslint": "^8.29.0"

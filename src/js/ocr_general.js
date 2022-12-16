@@ -1,3 +1,5 @@
+/* global fc */
+/* global config_folder */
 const CryptoJS = require("crypto-js");
 var fs = require("fs");
 

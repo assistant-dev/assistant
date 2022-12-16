@@ -26,6 +26,32 @@ let zh_CN = {
   remaining: "剩余",
   seconds: "秒",
   completed: "完成",
+  plz_wait: "请稍候……",
+};
+
+let zh_HK = {
+  all_set: "<b>一切就緒！</b> 您現在可以使用Assistant幫助您背誦了。",
+  go_ahead: "繼續",
+  add_piece: "+ 新增背誦",
+  open_piece: "加載歷史背誦",
+  lr_type: "錄入方式：",
+  please_select: "請選擇……",
+  text: "文本",
+  image: "圖片",
+  voice: "語音",
+  audio: "音頻",
+  filename: "文件名稱：",
+  exist_alert: "這個文件已經存在，請您更換一個文件名。",
+  name: "名稱：",
+  enter_prompt: "請輸入背誦內容：",
+  add: `<i class="bi bi-plus"></i> 新增`,
+  save: `<i class="bi bi-save"></i> 保存`,
+  "zh-CN": "中文（簡體）",
+  "en-US": "英語（美國）",
+  remaining: "剩餘",
+  seconds: "秒",
+  completed: "完成",
+  plz_wait: "請稍候……",
 };
 
 let en_US = {
@@ -51,22 +77,28 @@ let en_US = {
   remaining: "Remaining",
   seconds: "seconds",
   completed: "Completed",
+  plz_wait: "Please wait...",
 };
 
 /**
  * lang
  * @brief The set of languages. Each object like zh-CN, ru-RU, en-US, etc.
  */
-let lang = { "zh-CN": zh_CN, "en-US": en_US };
+let lang = {
+  "zh-CN": zh_CN,
+  "zh-HK": zh_HK,
+  "en-US": en_US,
+};
 
 /**
  * update()
  * @brief Update <lang label="..." /> tags.
  * @param {string} loc
  */
+// eslint-disable-next-line no-unused-vars
 function update(loc) {
   let sel = document.getElementsByTagName("loc");
   for (var i in sel) sel[i].innerHTML = lang[loc][sel[i].innerHTML];
   let sel2 = document.getElementsByClassName("loc");
-  for (var i in sel2) sel2[i].innerHTML = lang[loc][sel2[i].innerHTML];
+  for (i in sel2) sel2[i].innerHTML = lang[loc][sel2[i].innerHTML];
 }

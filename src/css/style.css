@@ -27,3 +27,7 @@ body {
 .green {
   color: rgb(12, 180, 12);
 }
+
+.disabled {
+  color: gray !important;
+}

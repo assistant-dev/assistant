@@ -1,5 +1,9 @@
+/* global fc */
+/* global config_folder */
+/* global fileNameByPath */
+/* global fileSize */
+/* global duration */
 var CryptoJS = require("crypto-js");
-var fs = require("fs");
 var querystring = require("querystring");
 var buffer = require("buffer");
 
@@ -41,6 +45,7 @@ async function getRsp(file, lang) {
   return response.text();
 }
 
+// eslint-disable-next-line no-unused-vars
 async function ifasr(file, lang) {
   let text = await getRsp(file, lang);
 
@@ -88,6 +93,7 @@ async function getRsp2(orderId) {
   return response.text();
 }
 
+// eslint-disable-next-line no-unused-vars
 async function ifasrq(orderId) {
   let text = await getRsp2(orderId);
 

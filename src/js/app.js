@@ -1,7 +1,7 @@
 var os = require("os");
 var fs = require("fs");
 var pathr = require("path");
-var mm = import("music-metadata");
+var mm = require("music-metadata");
 
 /**
  * config_path()
@@ -79,6 +79,7 @@ function save_preferences() {
   let folder = config_folder();
   if (!fs.existsSync(folder)) fs.mkdirSync(folder);
   let path = config_path();
+  if (!fs.existsSync(folder + "/dl")) fs.mkdirSync(folder + "/dl");
   let data = {
     language: document.getElementById("language").value,
     theme: document.getElementById("theme").value,
@@ -170,5 +171,34 @@ async function duration(audio_file) {
     return metadata.format.duration * 1000;
   } catch (err) {
     return -1;
+  }
+}
+
+/**
+ * mts()
+ * @brief Convert miliseconds to seconds
+ * @param {number} milisec The miliseconds to convert
+ * @returns {num} The seconds.
+ */
+// eslint-disable-next-line no-unused-vars
+function mts(milisec) {
+  return milisec / 1000;
+}
+
+/**
+ * ttext()
+ * @brief Convert seconds to human-readable text, e.g. 1 minutes 30 seconds, 1分钟30秒
+ * @param {number} sec The seconds to convert to
+ * @param {string} lang The language option. Defaults to "en-US", options see js/lang.js
+ * @returns {string} The human-readable text
+ */
+// eslint-disable-next-line no-unused-vars
+function ttext(sec, lang = "en-US") {
+  let min = Math.floor(sec / 60);
+  let sec2 = Math.floor(sec % 60);
+  if (lang == "zh-CN") {
+    return min + "分钟" + sec2 + "秒";
+  } else {
+    return min + " minutes " + sec2 + " seconds";
   }
 }
