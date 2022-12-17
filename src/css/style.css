@@ -31,3 +31,20 @@ body {
 .disabled {
   color: gray !important;
 }
+
+.search-main {
+  color: blue;
+}
+
+.search-secondary {
+  color: grey;
+}
+
+.r {
+  text-align: right;
+  clear: right;
+}
+
+.bold {
+  font-weight: bold;
+}

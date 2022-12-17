@@ -1,0 +1,25 @@
+{
+    "@include": [
+        "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css",
+        "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"
+    ],
+    "bprimary": "btn btn-primary",
+    "bprimary-sm": "btn btn-primary btn-sm",
+    "bsecondary-sm": "btn btn-secondary btn-sm",
+    "container" : "container",
+    "small-input": "form-control form-control-sm",
+    "list-group": "list-group",
+    "lgi-flexjust": "list-group-item d-flex justify-content-between",
+    "lgi-fjalign": "list-group-item d-flex justify-content-between align-items-start",
+    "lgi-jalign": "list-group-item justify-content-between align-items-start",
+    "numbered-slistg": "list-group list-group-sm list-group-numbered",
+    "alert-success": "alert alert-sm alert-success d-flex align-items-center",
+    "small-select": "form-select form-select-sm",
+    "input": "form-control",
+    "hidden": "hidden",
+    "mems": "ms-2 me-auto",
+    "fwbold": "fw-bold",
+    "blighttrans": "btn btn-light trans",
+    "progress": "progress",
+    "progress-bar": "progress-bar"
+}

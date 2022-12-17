@@ -180,7 +180,7 @@ function mts(milisec) {
 function ttext(sec, lang = "en-US") {
   let min = Math.floor(sec / 60);
   let sec2 = Math.floor(sec % 60);
-  if (lang == "cn") {
+  if (lang == "zh-CN") {
     return min + "分钟" + sec2 + "秒";
   } else {
     return min + " minutes " + sec2 + " seconds";
@@ -195,4 +195,45 @@ function readfb(path, bytes) {
   fs.readSync(fd, buf, 0, bytes, 0);
   fs.closeSync(fd);
   return buf;
+}
+
+// eslint-disable-next-line
+function rdDir() {
+  let path = config_folder() + "/dl";
+  let files = fs.readdirSync(path);
+  return files;
+}
+
+function folderSize(path) {
+  let size = 0;
+  let files = fs.readdirSync(path);
+  files.forEach((f) => {
+    let curPath = path + "/" + f;
+    if (fs.lstatSync(curPath).isDirectory()) {
+      // recurse
+      size += folderSize(curPath);
+    }
+    size += fs.lstatSync(curPath).size;
+  });
+  return size;
+}
+
+// eslint-disable-next-line
+function showSize(path) {
+  // show the appropriate size
+  let size = folderSize(path);
+  let unit = "Bytes";
+  if (size > 1024) {
+    size /= 1024;
+    unit = "KiB";
+  }
+  if (size > 1024) {
+    size /= 1024;
+    unit = "MiB";
+  }
+  if (size > 1024) {
+    size /= 1024;
+    unit = "GiB";
+  }
+  return size.toFixed(2) + " " + unit;
 }

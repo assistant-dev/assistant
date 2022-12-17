@@ -1,0 +1,30 @@
+{
+    "@include": [
+        "https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css",
+        "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"
+    ],
+    "@script-url": [
+        "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js",
+        "https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"
+    ],
+    "@additional-script": "$('select.dropdown').dropdown();",
+    "bprimary": "ui primary button",
+    "bprimary-sm": "ui tiny primary button",
+    "bsecondary-sm": "ui tiny button",
+    "container" : "ui container",
+    "small-input": "ui input",
+    "list-group": "ui",
+    "lgi-flexjust": "ui raised segment",
+    "lgi-fjalign": "ui raised segment",
+    "lgi-jalign": "ui raised segment",
+    "numbered-slistg": "ui raised segment",
+    "alert-success": "ui success message",
+    "small-select": "ui search dropdown",
+    "input": "ui field",
+    "hidden": "hidden",
+    "mems": "",
+    "fwbold": "bold",
+    "blighttrans": "ui trans button",
+    "progress": "ui",
+    "progress-bar": "ui indicating progress"
+}

@@ -34,6 +34,9 @@ let zh_CN = {
   origin_text: "源文字：",
   recite_text: "背诵文字：",
   diff_text: "差异文字：",
+  choose_open: "选择文件：",
+  audio_type:
+    "您给定的文件的类型不合法。它们的类型必须是audio/wav、audio/mpeg、audio/x-m4a。",
 };
 
 let zh_HK = {
@@ -66,6 +69,9 @@ let zh_HK = {
   origin_text: "源文字：",
   recite_text: "背誦文字：",
   diff_text: "差異文字：",
+  choose_open: "選擇文件：",
+  audio_type:
+    "您給定的文件的類型不合法。它們的類型必須是audio/wav、audio/mpeg、audio/x-m4a。",
 };
 
 let en_US = {
@@ -100,6 +106,9 @@ let en_US = {
   origin_text: "Original text:",
   recite_text: "Recite text:",
   diff_text: "Diff text:",
+  choose_open: "Choose file:",
+  audio_type:
+    "The type of the file you provided is illegal. Its type must be audio/wav, audio/mpeg, or audio/x-m4a.",
 };
 
 /**

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <title>Assistant</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="css/style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="container ast-theme" id="app" data-theme="container">
+      <b><loc>choose_open</loc></b
+      ><br />
+      <input
+        type="search"
+        class="form-control form-control-sm ast-theme"
+        id="filter"
+        name="filter"
+        oninput="filter(this.value)"
+        title="filter"
+        data-theme="small-input"
+      />
+      <br />
+      <ul
+        class="list-group ast-theme"
+        id="filter-list"
+        data-theme="list-group"
+      ></ul>
+    </div>
+    <script src="js/app.js"></script>
+    <script src="js/lang.js"></script>
+    <script src="js/theming.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      window.onload = function () {
+        let firstRun = detect_first_run();
+        if (firstRun) {
+          var link = document.createElement("a");
+          link.href = "first_run.html";
+          link.click();
+        }
+        let cfg = JSON.parse(fc(config_path()));
+        update(cfg.language);
+        loadData();
+      };
+      let dataSet = [];
+      function loadData() {
+        let path = config_folder() + "/dl";
+        let folders = rdDir();
+        dataSet = folders.map((f) => {
+          return {
+            name: f,
+            path: path + "/" + f,
+            actual_name: JSON.parse(fc(path + "/" + f + "/project.json")).name,
+            size: showSize(path + "/" + f),
+          };
+        });
+        $i("filter-list").innerHTML = dataSet
+          .map((f) => {
+            return `<a href="recite_mod/index.html" onclick="localStorage.setItem('project_path', ${
+              f.path + "/project.json"
+            })" class="list-group-item d-flex justify-content-between ast-theme" data-theme="lgi-flexjust"><b class="search-main">${
+              f.actual_name
+            }</b><span class="search-secondary">(${
+              f.name
+            })</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="r">${
+              f.size
+            }</span></a>`;
+          })
+          .join("");
+      }
+      function filter(i) {
+        let filtered = dataSet.filter((f) => {
+          return (f.path + f.name + f.actual_name)
+            .toLowerCase()
+            .includes(i.toLowerCase());
+        });
+        $i("filter-list").innerHTML = filtered
+          .map((f) => {
+            return `<a href="recite_mod/index.html" onclick="localStorage.setItem('project_path', ${
+              f.path + "/project.json"
+            })" class="list-group-item d-flex justify-content-between ast-theme" data-theme="lgi-flexjust"><b class="search-main">${
+              f.actual_name
+            }</b><span class="search-secondary">(${
+              f.name
+            })</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="r">${
+              f.size
+            }</span></a>`;
+          })
+          .join("");
+      }
+    </script>
+  </body>
+</html>
