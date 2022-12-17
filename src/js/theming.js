@@ -34,24 +34,26 @@ async function wc(url) {
   return resp.text();
 }
 
-async function theme() {
+async function theme(firsttime = false) {
   let cfg = JSON.parse(fc(config_path()));
   let themez = cfg.theme;
   let themehex = fc(`theme/${themez}.hex`);
   themehex = hextodec(themehex);
   themehex = dectochar(themehex);
   themehex = JSON.parse(themehex);
-  if (typeof themehex["@include"] !== "undefined") {
-    for (let i = 0; i < themehex["@include"].length; i++) {
-      css_import(themehex["@include"][i]);
+  if (firsttime) {
+    if (typeof themehex["@include"] !== "undefined") {
+      for (let i = 0; i < themehex["@include"].length; i++) {
+        css_import(themehex["@include"][i]);
+      }
     }
-  }
-  if (typeof themehex["@script"] !== "undefined") {
-    for (let i = 0; i < themehex["@script-url"].length; i++)
-      eval(await wc(themehex["@script-url"][i]));
-  }
-  if (typeof themehex["@script"] !== "undefined") {
-    setTimeout(themehex["@additional-script"], 0);
+    if (typeof themehex["@script"] !== "undefined") {
+      for (let i = 0; i < themehex["@script-url"].length; i++)
+        eval(await wc(themehex["@script-url"][i]));
+    }
+    if (typeof themehex["@script"] !== "undefined") {
+      setTimeout(themehex["@additional-script"], 0);
+    }
   }
   const cls = document.getElementsByClassName("ast-theme");
   let arr = [];
@@ -61,5 +63,5 @@ async function theme() {
 }
 
 (async function () {
-  await theme();
+  await theme(true);
 })();

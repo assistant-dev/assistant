@@ -20,11 +20,7 @@
         data-theme="small-input"
       />
       <br />
-      <ul
-        class="ast-theme"
-        id="filter-list"
-        data-theme="list-group"
-      ></ul>
+      <ul class="ast-theme" id="filter-list" data-theme="list-group"></ul>
     </div>
     <script src="js/app.js"></script>
     <script src="js/lang.js"></script>
@@ -56,9 +52,9 @@
         });
         $i("filter-list").innerHTML = dataSet
           .map((f) => {
-            return `<a href="recite_mod/index.html" onclick="localStorage.setItem('project_path', ${
-              f.path + "/project.json"
-            })" class="list-group-item d-flex justify-content-between ast-theme" data-theme="lgi-flexjust"><b class="search-main">${
+            return `<a href="recite_mod/index.html" onclick="set('${
+              f.path
+            }')" class="list-group-item d-flex justify-content-between ast-theme" data-theme="lgi-flexjust"><b class="search-main">${
               f.actual_name
             }</b><span class="search-secondary">(${
               f.name
@@ -76,9 +72,9 @@
         });
         $i("filter-list").innerHTML = filtered
           .map((f) => {
-            return `<a href="recite_mod/index.html" onclick="localStorage.setItem('project_path', ${
-              f.path + "/project.json"
-            })" class="list-group-item d-flex justify-content-between ast-theme" data-theme="lgi-flexjust"><b class="search-main">${
+            return `<a href="recite_mod/index.html" onclick="set('${
+              f.path
+            }')" class="list-group-item d-flex justify-content-between ast-theme" data-theme="lgi-flexjust"><b class="search-main">${
               f.actual_name
             }</b><span class="search-secondary">(${
               f.name
@@ -87,6 +83,9 @@
             }</span></a>`;
           })
           .join("");
+      }
+      function set(path) {
+        localStorage.setItem("project_path", path);
       }
     </script>
   </body>

@@ -37,6 +37,7 @@ let zh_CN = {
   choose_open: "选择文件：",
   audio_type:
     "您给定的文件的类型不合法。它们的类型必须是audio/wav、audio/mpeg、audio/x-m4a。",
+  check: "检查",
 };
 
 let zh_HK = {
@@ -72,6 +73,7 @@ let zh_HK = {
   choose_open: "選擇文件：",
   audio_type:
     "您給定的文件的類型不合法。它們的類型必須是audio/wav、audio/mpeg、audio/x-m4a。",
+  check: "檢查",
 };
 
 let en_US = {
@@ -109,6 +111,7 @@ let en_US = {
   choose_open: "Choose file:",
   audio_type:
     "The type of the file you provided is illegal. Its type must be audio/wav, audio/mpeg, or audio/x-m4a.",
+  check: "Check",
 };
 
 /**
