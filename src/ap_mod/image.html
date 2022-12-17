@@ -8,10 +8,10 @@
   </head>
 
   <body>
-    <div class="container ast-theme" id="app" data-theme="container">
+    <div class="ast-theme" id="app" data-theme="container">
       <button
         type="button"
-        class="btn btn-primary ast-theme"
+        class="ast-theme"
         onclick="add_pic()"
         title="pic_title"
         data-theme="bprimary"
@@ -21,7 +21,7 @@
       &nbsp;&nbsp;
       <button
         type="button"
-        class="btn btn-primary ast-theme"
+        class="ast-theme"
         onclick="save()"
         title="savepic"
         data-theme="bprimary"
@@ -30,7 +30,7 @@
       </button>
       <input
         type="file"
-        class="hidden ast-theme"
+        class="ast-theme"
         title="file_upload"
         id="file"
         multiple
@@ -38,7 +38,7 @@
       />
     </div>
     <ol
-      class="list-group list-group-sm list-group-numbered ast-theme"
+      class="ast-theme"
       id="lg"
       data-theme="numbered-slistg"
     >
@@ -101,13 +101,13 @@
               let li = document.createElement("li");
               li.id = "li_" + count();
               li.className =
-                "list-group-item d-flex justify-content-between align-items-start ast-theme";
+                "ast-theme";
               li.dataset.theme = "lgi-fjalign";
               let div = document.createElement("div");
-              div.className = "ms-2 me-auto ast-theme";
+              div.className = "ast-theme";
               div.dataset.theme = "mems";
               let div_fw = document.createElement("div");
-              div_fw.className = "fw-bold ast-theme";
+              div_fw.className = "ast-theme";
               div_fw.dataset.theme = "fwbold";
               div_fw.id = "fn_" + count();
               div_fw.innerHTML = file_name;
@@ -118,20 +118,21 @@
               div.appendChild(span);
               li.appendChild(div);
               // edit
-              li.innerHTML += `<button class="btn btn-light trans ast-theme" id="editbtn_${count()}" onclick="edit(${count()})" title="edit" data-theme="blighttrans"><i class="bi bi-pencil-fill green"></i></button>`;
+              li.innerHTML += `<button class="ast-theme" id="editbtn_${count()}" onclick="edit(${count()})" title="edit" data-theme="blighttrans"><i class="bi bi-pencil-fill green"></i></button>`;
               // image
-              li.innerHTML += `<button class="btn btn-light trans ast-theme" id="origbtn_${count()}" onclick="orig(${count()})" title="original" data-theme="blighttrans"><i class="bi bi-image-fill dblue"></i></button>`;
+              li.innerHTML += `<button class="ast-theme" id="origbtn_${count()}" onclick="orig(${count()})" title="original" data-theme="blighttrans"><i class="bi bi-image-fill dblue"></i></button>`;
               // up
-              li.innerHTML += `<button class="btn btn-light trans ast-theme" id="upbtn_${count()}" onclick="up_func(${count()})" title="up" data-theme="blighttrans"><i class="bi bi-caret-up-fill dblue" id="up_${count()}"></i></button>`;
+              li.innerHTML += `<button class="ast-theme" id="upbtn_${count()}" onclick="up_func(${count()})" title="up" data-theme="blighttrans"><i class="bi bi-caret-up-fill dblue" id="up_${count()}"></i></button>`;
               // down
-              li.innerHTML += `<button class="btn btn-light trans ast-theme" id="downbtn_${count()}" onclick="down_func(${count()})" title="down" data-theme="blighttrans"><i class="bi bi-caret-down-fill dblue" id="down_${count()}"></i></button>`;
+              li.innerHTML += `<button class="ast-theme" id="downbtn_${count()}" onclick="down_func(${count()})" title="down" data-theme="blighttrans"><i class="bi bi-caret-down-fill dblue" id="down_${count()}"></i></button>`;
               // trash
-              li.innerHTML += `<button class="btn btn-light trans ast-theme" id="trashbtn_${count()}" onclick="trash_func(${count()})" title="trash" data-theme="blighttrans"><i class="bi bi-trash3-fill red" id="trash_${count()}"></i></button>`;
+              li.innerHTML += `<button class="ast-theme" id="trashbtn_${count()}" onclick="trash_func(${count()})" title="trash" data-theme="blighttrans"><i class="bi bi-trash3-fill red" id="trash_${count()}"></i></button>`;
               lg.appendChild(li);
               // add to imgpaths
               imgpaths.push(file_path);
               imgtypes.push(file_type);
               cpp();
+              await theme();
             }
           }
         };

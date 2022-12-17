@@ -8,10 +8,10 @@
   </head>
 
   <body>
-    <div class="container ast-theme" id="app" data-theme="container">
+    <div class="ast-theme" id="app" data-theme="container">
       <button
         type="button"
-        class="btn btn-primary ast-theme"
+        class="ast-theme"
         onclick="add_audio()"
         title="audio_title"
         data-theme="bprimary"
@@ -21,7 +21,7 @@
       &nbsp;&nbsp;
       <button
         type="button"
-        class="btn btn-primary ast-theme"
+        class="ast-theme"
         onclick="save()"
         title="savepic"
         data-theme="bprimary"
@@ -32,7 +32,7 @@
       <select
         id="lang-sel"
         title="lang-sel"
-        class="form-select form-select-sm ast-theme"
+        class="ast-theme"
         data-theme="small-select"
       >
         <option value="" class="loc">please_select</option>
@@ -41,7 +41,7 @@
       </select>
       <input
         type="file"
-        class="hidden ast-theme"
+        class="ast-theme"
         title="file_upload"
         id="file"
         multiple
@@ -114,7 +114,7 @@
         clearInterval(itv);
       }
       function getBtn(type, count, icon, color, disabled = false) {
-        return `<button class="btn btn-light trans ast-theme" id="${type}btn_${count}" onclick="${type}(${count})" title="${type}"${
+        return `<button class="ast-theme" id="${type}btn_${count}" onclick="${type}(${count})" title="${type}"${
           disabled ? " disabled" : ""
         } data-theme="blighttrans"><i class="bi bi-${icon} ${color}${
           disabled ? " disabled" : ""
@@ -151,16 +151,16 @@
               let li = $c("li", {
                 id: "li_" + count,
                 className:
-                  "list-group-item justify-content-between align-items-start ast-theme",
+                  "ast-theme",
               });
               li.dataset.theme = "lgi-jalign";
               lg.appendChild(li);
               let div = $c("div", {
-                className: "ms-2 me-auto ast-theme",
+                className: "ast-theme",
               });
               div.dataset.theme = "mems";
               let div_fw = $c("div", {
-                className: "fw-bold ast-theme",
+                className: "ast-theme",
                 id: "fn_" + count,
                 innerHTML: file_name,
               });
@@ -240,6 +240,7 @@
               audioPaths.push(file_path);
               audioTypes.push(file_type);
               $i("count").value = parseInt(count) + 1;
+              await theme();
             } else {
               alert(lang[cfg.language]["audio_type"]);
             }
