@@ -29,7 +29,7 @@ let zh_CN = {
   completed: "完成",
   plz_wait: "请稍候……",
   langsel_prompt: "请您先选择好需要录入的语言。",
-  success: "<b>成功！</b> 您的背诵已经成功录入，开始您的背诵吧！",
+  success: "<b>成功！</b> 您的原文已经成功录入，开始您的背诵吧！",
   bti: "返回首页", // Back to index
   recite_type: "背诵方式：",
   origin_text: "源文字：",
@@ -45,6 +45,9 @@ let zh_CN = {
   bs_light: "Bootstrap浅色",
   semantic_pure: "Semantic纯色",
   env_vars: "环境变量",
+  start_rc: "开始背诵",
+  stop_rc: "停止背诵",
+  realtime_diff: "实时差异：",
 };
 
 let zh_HK = {
@@ -72,7 +75,7 @@ let zh_HK = {
   completed: "完成",
   plz_wait: "請稍候……",
   langsel_prompt: "請您先選擇好需要錄入的語言。",
-  success: "<b>成功！</b> 您的背誦已經成功錄入，開始您的背誦吧！",
+  success: "<b>成功！</b> 您的原文已經成功錄入，開始您的背誦吧！",
   bti: "返回首頁", // Back to index
   recite_type: "背誦方式：",
   origin_text: "源文字：",
@@ -88,6 +91,9 @@ let zh_HK = {
   bs_light: "Bootstrap淺色",
   semantic_pure: "Semantic純色",
   env_vars: "環境變量",
+  start_rc: "開始背誦",
+  stop_rc: "停止背誦",
+  realtime_diff: "實時差異：",
 };
 
 let en_US = {
@@ -117,7 +123,7 @@ let en_US = {
   plz_wait: "Please wait...",
   langsel_prompt: "Please select the language you want to input first.",
   success:
-    "<b>Success!</b> Your reciting has been successfully input, why not start your reciting now?",
+    "<b>Success!</b> Your original text has been successfully entered, how about reciting now?",
   bti: "Back home", // Back to index
   recite_type: "Recite type:",
   origin_text: "Original text:",
@@ -133,6 +139,9 @@ let en_US = {
   bs_light: "Bootstrap Light",
   semantic_pure: "Semantic Pure",
   env_vars: "Environment variables",
+  start_rc: "Start reciting",
+  stop_rc: "Stop reciting",
+  realtime_diff: "Realtime diff: ",
 };
 
 /**
