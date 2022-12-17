@@ -24,5 +24,6 @@
     "fwbold": "fw-bold",
     "blighttrans": "btn btn-light trans",
     "progress": "progress",
-    "progress-bar": "progress-bar"
+    "progress-bar": "progress-bar",
+    "inputcode": "form-control code"
 }

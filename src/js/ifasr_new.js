@@ -17,7 +17,7 @@ function duration(audioFile) {
 }
 
 async function getRsp(file, lang) {
-  let json = JSON.parse(fc(config_folder() + "/.xfyun"));
+  let json = JSON.parse(fc(config_folder() + "/.env"));
 
   const config = {
     url: "https://raasr.xfyun.cn/v2/api/upload",
@@ -74,7 +74,7 @@ async function ifasr(file, lang) {
 }
 
 async function getRsp2(orderId) {
-  let json = JSON.parse(fc(config_folder() + "/.xfyun"));
+  let json = JSON.parse(fc(config_folder() + "/.env"));
 
   const config = {
     url: "https://raasr.xfyun.cn/v2/api/getResult",

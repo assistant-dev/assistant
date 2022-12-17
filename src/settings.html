@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <title>Assistant</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="css/style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="ast-theme" id="app" data-theme="container">
+      <h4><loc>settings</loc></h4>
+      <br />
+      <b><loc>language</loc></b
+      ><br />
+      <select
+        class="ast-theme"
+        data-theme="small-select"
+        id="lang"
+        title="lang"
+      >
+        <option value="" class="loc">please_select</option>
+        <option value="zh-CN" class="loc">zh-CN</option>
+        <option value="zh-HK" class="loc">zh-HK</option>
+        <option value="en-US" class="loc">en-US</option></select
+      ><br />
+      <b><loc>theme</loc></b
+      ><br />
+      <select
+        class="ast-theme"
+        data-theme="small-select"
+        id="theme"
+        title="theme"
+      >
+        <option value="" class="loc">please_select</option>
+        <option value="bs-light" class="loc">bs_light</option>
+        <option value="semantic-pure" class="loc">semantic_pure</option></select
+      ><br />
+      <b><loc>env_vars</loc></b
+      ><br />
+      <textarea
+        id="env_vars"
+        class="ast-theme"
+        data-theme="inputcode"
+        title="env_vars"
+        rows="7"
+        style="font-size: 12px"
+      ></textarea>
+      <br />
+      <button
+        class="ast-theme"
+        data-theme="bprimary"
+        id="save"
+        title="save"
+        onclick="save()"
+      >
+        <loc>save</loc>
+      </button>
+    </div>
+    <script src="js/app.js"></script>
+    <script src="js/lang.js"></script>
+    <script src="js/theming.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      window.onload = function () {
+        let firstRun = detect_first_run();
+        if (firstRun) {
+          var link = document.createElement("a");
+          link.href = "first_run.html";
+          link.click();
+        }
+        let cfg = JSON.parse(fc(config_path()));
+        update(cfg.language);
+        $i("lang").value = cfg.language;
+        $i("theme").value = cfg.theme;
+        $i("env_vars").value = fc(config_folder() + "/.env");
+      };
+      function save() {
+        let cfg = JSON.parse(fc(config_path()));
+        cfg.language = $i("lang").value;
+        cfg.theme = $i("theme").value;
+        fs.writeFileSync(config_path(), JSON.stringify(cfg));
+        fs.writeFileSync(config_folder() + "/.env", $i("env_vars").value);
+        window.close();
+      }
+    </script>
+  </body>
+</html>

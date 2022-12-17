@@ -12,7 +12,7 @@ var fs = require("fs");
  * @returns {string} The text of the xfyun response, with the confidence etc. unusable data.
  */
 async function getRsp(file) {
-  let json = JSON.parse(fc(config_folder() + "/.xfyun"));
+  let json = JSON.parse(fc(config_folder() + "/.env"));
 
   const config = {
     hostUrl: "https://webapi.xfyun.cn/v1/service/v1/ocr/general",

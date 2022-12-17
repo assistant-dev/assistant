@@ -13,10 +13,17 @@
         <!-- add piece -->
         <a href="add_piece.html" class="ast-theme" data-theme="bprimary"
           ><loc>add_piece</loc></a
-        ><br /><br />
+        ><br />
         <a href="open_piece.html" class="ast-theme" data-theme="bprimary"
           ><loc>open_piece</loc></a
-        >
+        ><br />
+        <a
+          href="javascript:void(0);"
+          class="ast-theme"
+          data-theme="bprimary"
+          onclick="settings();"
+          ><loc>settings</loc></a
+        ><br />
       </center>
     </div>
     <script src="js/app.js"></script>
@@ -34,6 +41,9 @@
         let cfg = JSON.parse(fc(config_path()));
         update(cfg.language);
       };
+      function settings() {
+        nw.Window.get(window.open("settings.html"));
+      }
     </script>
   </body>
 </html>

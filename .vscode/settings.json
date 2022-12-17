@@ -1,8 +1,0 @@
-{
-  "files.associations": {
-    "precision": "cpp",
-    "pointer": "cpp",
-    "*.stpl": "html",
-    "istream": "cpp"
-  }
-}

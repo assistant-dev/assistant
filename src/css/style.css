@@ -48,3 +48,7 @@ body {
 .bold {
   font-weight: bold;
 }
+
+.code {
+  font-family: "SF Mono", "Consolas" !important;
+}

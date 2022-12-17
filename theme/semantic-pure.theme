@@ -26,5 +26,6 @@
     "fwbold": "bold",
     "blighttrans": "ui trans button",
     "progress": "ui",
-    "progress-bar": "ui indicating progress"
+    "progress-bar": "ui indicating progress",
+    "inputcode": "ui input code"
 }

@@ -22,6 +22,7 @@ let zh_CN = {
   add: `<i class="bi bi-plus"></i> 新增`,
   save: `<i class="bi bi-save"></i> 保存`,
   "zh-CN": "中文（简体）",
+  "zh-HK": "中文（繁体）",
   "en-US": "英语（美国）",
   remaining: "剩余",
   seconds: "秒",
@@ -38,6 +39,12 @@ let zh_CN = {
   audio_type:
     "您给定的文件的类型不合法。它们的类型必须是audio/wav、audio/mpeg、audio/x-m4a。",
   check: "检查",
+  settings: "设置",
+  language: "语言：",
+  theme: "主题：",
+  bs_light: "Bootstrap浅色",
+  semantic_pure: "Semantic纯色",
+  env_vars: "环境变量",
 };
 
 let zh_HK = {
@@ -58,6 +65,7 @@ let zh_HK = {
   add: `<i class="bi bi-plus"></i> 新增`,
   save: `<i class="bi bi-save"></i> 保存`,
   "zh-CN": "中文（簡體）",
+  "zh-HK": "中文（繁體）",
   "en-US": "英語（美國）",
   remaining: "剩餘",
   seconds: "秒",
@@ -74,6 +82,12 @@ let zh_HK = {
   audio_type:
     "您給定的文件的類型不合法。它們的類型必須是audio/wav、audio/mpeg、audio/x-m4a。",
   check: "檢查",
+  settings: "設置",
+  language: "語言",
+  theme: "主題",
+  bs_light: "Bootstrap淺色",
+  semantic_pure: "Semantic純色",
+  env_vars: "環境變量",
 };
 
 let en_US = {
@@ -95,6 +109,7 @@ let en_US = {
   add: `<i class="bi bi-plus"></i> Add`,
   save: `<i class="bi bi-save"></i> Save`,
   "zh-CN": "Chinese (Simplified)",
+  "zh-HK": "Chinese (Traditional)",
   "en-US": "English (United States)",
   remaining: "Remaining",
   seconds: "seconds",
@@ -112,6 +127,12 @@ let en_US = {
   audio_type:
     "The type of the file you provided is illegal. Its type must be audio/wav, audio/mpeg, or audio/x-m4a.",
   check: "Check",
+  settings: "Settings",
+  language: "Language:",
+  theme: "Theme:",
+  bs_light: "Bootstrap Light",
+  semantic_pure: "Semantic Pure",
+  env_vars: "Environment variables",
 };
 
 /**
