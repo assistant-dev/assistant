@@ -1509,6 +1509,11 @@ ms@2.1.3, ms@^2.1.1:
   resolved "https://registry.npmmirror.com/ms/-/ms-2.1.3.tgz#574c8138ce1d2b5861f0b44579dbadd60c6615b2"
   integrity sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==
 
+msr@^1.3.4:
+  version "1.3.4"
+  resolved "https://registry.npmmirror.com/msr/-/msr-1.3.4.tgz#489458468d5385e6ac1b2e112a8724a844314fa2"
+  integrity sha512-vx1gmfKCacOylK5YNSlWWrWcqMfOjSgQQn3rb4NA830LlBrXyWVHJQdbILG4xiK9Xz77K35ve2CLodX2gEzlKA==
+
 natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.npmmirror.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"

@@ -12,51 +12,31 @@
       <button
         type="button"
         class="ast-theme"
-        onclick="add_audio()"
-        title="audio_title"
+        id="rc"
         data-theme="bprimary"
+        onclick="/*start_reciting()*/"
       >
-        <loc>add</loc>
+        <loc>start_rc</loc>
       </button>
-      &nbsp;&nbsp;
-      <button
-        type="button"
-        class="ast-theme"
-        onclick="check()"
-        title="savepic"
-        data-theme="bprimary"
-      >
-        <loc>check</loc>
-      </button>
-      &nbsp;&nbsp;
-      <select
-        id="lang-sel"
-        title="lang-sel"
-        class="ast-theme"
-        data-theme="small-select"
-      >
-        <option value="" class="loc">please_select</option>
-        <option value="cn" class="loc">zh-CN</option>
-        <option value="en" class="loc">en-US</option>
-      </select>
-      <input
-        type="file"
-        class="ast-theme"
-        title="file_upload"
-        id="file"
-        multiple
-        data-theme="hidden"
-      />
+      <div class="ast-theme" data-theme="progress" id="pg">
+        <div
+          class="ast-theme"
+          data-theme="progress-bar"
+          role="progressbar"
+          aria-label="Animation"
+          id="pgb"
+        ></div>
+      </div>
+      <div class="realtime-diff">
+        <b><loc>realtime_diff</loc></b>
+        <span id="diff"></span>
+      </div>
     </div>
-    <ol class="list-group list-group-sm list-group-numbered" id="lg">
-      <input type="hidden" id="count" value="1" />
-    </ol>
     <script src="../js/app.js"></script>
     <script src="../js/lang.js"></script>
     <script src="../js/ifasr_new.js"></script>
     <script src="../js/diff.js"></script>
     <script src="../js/theming.js"></script>
-    <script src="../js/recorder.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
       window.onload = function () {
@@ -71,17 +51,57 @@
       update(cfg.language);
       let path = localStorage.getItem("project_path");
       let json_mfs = JSON.parse(fc(path + "/project.json"));
-      let recorderWorker = new Worker("../js/transformpcm.worker.js");
-      let buffer = [];
-      let audioContext = window.AudioContext || window.webkitAudioContext;
-      navigator.getUserMedia =
-        navigator.getUserMedia ||
-        navigator.webkitGetUserMedia ||
-        navigator.mozGetUserMedia ||
-        navigator.msGetUserMedia;
-      recorderWorker.onmessage = function (e) {
-        buffer.push(...e.data.buffer);
+      let animation_interval = 0;
+      let realText = [];
+      function start_animation() {
+        let progress_bar = $i("pgb");
+        const itv = setInterval(function () {
+          let width = progress_bar.style.width;
+          if (width == "100%") {
+            progress_bar.style.width = "0%";
+          } else {
+            progress_bar.style.width = parseInt(width) + 1 + "%";
+          }
+        }, 100);
+        animation_interval = itv;
+      }
+      function stop_animation() {
+        clearInterval(animation_interval);
+        progress_bar.style.width = "100%";
+        $("#pg").addClass("bg-success");
+      }
+      async function sleep(ms) {
+        await setTimeout(function () {
+          null;
+        }, ms);
+      }
+
+      var mediaStreamRecorder = require("msr");
+
+      var mediaConstraints = {
+        audio: true,
       };
+
+      navigator.getUserMedia(mediaConstraints, onMediaSuccess, onMediaError);
+
+      function onMediaSuccess(stream) {
+        var mediaRecorder = new mediaStreamRecorder(stream);
+        mediaRecorder.mimeType = "audio/wav";
+        mediaRecorder.ondataavailable = function (blob) {
+          var blobURL = URL.createObjectURL(blob);
+          console.log(blobURL);
+        };
+        mediaRecorder.start(3000);
+      }
+
+      function onMediaError(e) {
+        console.error("media error", e);
+      }
+
+      async function start_reciting() {
+        start_animation();
+        let recorder = new mediaStreamRecorder({});
+      }
     </script>
   </body>
 </html>

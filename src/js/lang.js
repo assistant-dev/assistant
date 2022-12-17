@@ -45,6 +45,9 @@ let zh_CN = {
   bs_light: "Bootstrap浅色",
   semantic_pure: "Semantic纯色",
   env_vars: "环境变量",
+  start_rc: "开始背诵",
+  stop_rc: "停止背诵",
+  realtime_diff: "实时差异：",
 };
 
 let zh_HK = {
@@ -88,6 +91,9 @@ let zh_HK = {
   bs_light: "Bootstrap淺色",
   semantic_pure: "Semantic純色",
   env_vars: "環境變量",
+  start_rc: "開始背誦",
+  stop_rc: "停止背誦",
+  realtime_diff: "實時差異：",
 };
 
 let en_US = {
@@ -133,6 +139,9 @@ let en_US = {
   bs_light: "Bootstrap Light",
   semantic_pure: "Semantic Pure",
   env_vars: "Environment variables",
+  start_rc: "Start reciting",
+  stop_rc: "Stop reciting",
+  realtime_diff: "Realtime diff: ",
 };
 
 /**

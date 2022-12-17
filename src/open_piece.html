@@ -52,7 +52,7 @@
         });
         $i("filter-list").innerHTML = dataSet
           .map((f) => {
-            return `<a href="recite_mod/index.html" onclick="set('${f.path}')" class="list-group-item d-flex justify-content-between ast-theme" data-theme="lgi-flexjust"><b class="search-main">${f.actual_name}</b><span class="search-secondary">(${f.name})</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="r">${f.size}</span></a>`;
+            return `<a href="recite_mod/index.html" onclick="set('${f.path}')" class="list-group-item d-flex justify-content-between ast-theme" data-theme="lgi-flexjust"><b class="search-main">${f.actual_name}</b><span class="search-secondary code">(${f.name})</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="r code">${f.size}</span></a>`;
           })
           .join("");
       }
@@ -64,7 +64,7 @@
         });
         $i("filter-list").innerHTML = filtered
           .map((f) => {
-            return `<a href="recite_mod/index.html" onclick="set('${f.path}')" class="list-group-item d-flex justify-content-between ast-theme" data-theme="lgi-flexjust"><b class="search-main">${f.actual_name}</b><span class="search-secondary">(${f.name})</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="r">${f.size}</span></a>`;
+            return `<a href="recite_mod/index.html" onclick="set('${f.path}')" class="list-group-item d-flex justify-content-between ast-theme" data-theme="lgi-flexjust"><b class="search-main">${f.actual_name}</b><span class="search-secondary code">(${f.name})</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="r code">${f.size}</span></a>`;
           })
           .join("");
       }
